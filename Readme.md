@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Vladimir Yazvinskiy](https://up.htmlacademy.ru/react/13/user/2141701).
-* Наставник: `Неизвестно`.
+- Студент: [Vladimir Yazvinskiy](https://up.htmlacademy.ru/react/13/user/2141701).
+- Наставник: `Кирилл Пиринен`.
 
 ---
 
