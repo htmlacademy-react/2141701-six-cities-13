@@ -1,11 +1,11 @@
 import CardPlace from '../../components/card-place/card-place';
 
-type WelcomeScreenProps = {
+type WelcomePageProps = {
   allCityList: string[];
   sortTypePlace: string[];
 };
 
-function WelcomeScreen({ allCityList, sortTypePlace}: WelcomeScreenProps): JSX.Element {
+function WelcomePage({ allCityList, sortTypePlace}: WelcomePageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -101,4 +101,4 @@ function WelcomeScreen({ allCityList, sortTypePlace}: WelcomeScreenProps): JSX.E
   );
 }
 
-export default WelcomeScreen;
+export default WelcomePage;

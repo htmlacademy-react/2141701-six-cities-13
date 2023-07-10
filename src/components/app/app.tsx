@@ -1,4 +1,4 @@
-import WelcomeScreen from '../../pages/welcome-screen/welcome-screen';
+import WelcomePage from '../../pages/welcome-page/welcome-page';
 
 type AppScreenProps = {
   allCityList: string[];
@@ -7,7 +7,7 @@ type AppScreenProps = {
 
 function App({ allCityList, sortTypePlace }: AppScreenProps): JSX.Element {
   return (
-    <WelcomeScreen allCityList={allCityList} sortTypePlace={sortTypePlace} />
+    <WelcomePage allCityList={allCityList} sortTypePlace={sortTypePlace} />
   );
 }
 
