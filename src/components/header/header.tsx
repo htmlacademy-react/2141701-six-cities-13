@@ -1,11 +1,16 @@
+import {Link} from 'react-router-dom';
+
+import {AppRoute} from '../../constants';
+
 type HeaderChildren = { children?: React.ReactNode | undefined };
+
 function Header(props: HeaderChildren): JSX.Element {
   return (
     <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
+              <Link to={AppRoute.Main} className="header__logo-link header__logo-link--active">
                 <img
                   className="header__logo"
                   src="img/logo.svg"
@@ -13,7 +18,7 @@ function Header(props: HeaderChildren): JSX.Element {
                   width={81}
                   height={41}
                 />
-              </a>
+              </Link>
             </div>
             {props.children}
           </div>
