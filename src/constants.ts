@@ -1,3 +1,5 @@
+export const DEFAULT_SORT = 'Popular';
+
 export const ALL_CITY_LIST = [
   'Paris',
   'Cologne',
@@ -14,5 +16,16 @@ export const SORT_TYPE_PLACE = [
   'Top rated first',
 ];
 
-export const DEFAULT_SORT = 'Popular';
+export enum AppRoute {
+  Login = '/login',
+  Main = '/',
+  Favorites = '/favorites',
+  Offer = '/offer',
+  NotFound = '*'
+}
 
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'Unknown',
+}
