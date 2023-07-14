@@ -1,19 +1,36 @@
 import {Link} from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import {AppRoute} from '../../constants';
-import HelmetMetaTag from '../../components/helmet-meta-tag/helmet-meta-tag';
+import Header from '../../components/header/header';
 
-function NotFoundPage() {
-  return (
-    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-      <HelmetMetaTag >
-      <title>6 cities: NotFoundPage </title>
-      </HelmetMetaTag>
-      <h2 style={{fontSize: '200px', marginBottom: '0px'}}>404</h2>
-      <h3 style={{fontSize: '40px'}}>Страница не найдена</h3>
-      <Link to={AppRoute.Main} style={{fontSize: '20px', border: '1px solid', borderRadius: '8px', padding: '8px', color: 'white', backgroundColor: 'black' }}>На главную</Link>
-    </div>
-  );
+function NotFoundPage(): JSX.Element {
+return (
+<>
+  <div className="page__favorites-container container">
+  <Helmet >
+  <title>6 cities: NotFoundPage </title>
+  </Helmet>
+  <Header/>
+    <section className="favorites favorites--empty">
+      <div className="favorites__status-wrapper">
+        <b className="favorites__status">404 page not found !</b>
+      </div>
+    </section>
+  </div>
+  <footer className="footer">
+    <Link className="footer__logo-link" to={AppRoute.Main}>
+      <img
+        className="footer__logo"
+        src="img/logo.svg"
+        alt="6 cities logo"
+        width={64}
+        height={33}
+      />
+    </Link>
+  </footer>
+</>
+);
 }
 
 export default NotFoundPage;

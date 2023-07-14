@@ -1,13 +1,14 @@
-import HelmetMetaTag from '../../components/helmet-meta-tag/helmet-meta-tag';
+import { Helmet } from 'react-helmet-async';
+
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
 import Header from '../../components/header/header';
 
 function FavoritesPage(): JSX.Element {
   return (
     <div className="page">
-      <HelmetMetaTag>
+      <Helmet>
       <title>6 cities: favorites</title>
-      </HelmetMetaTag>
+      </Helmet>
       <Header>
         <HeaderNavigation/>
       </Header>

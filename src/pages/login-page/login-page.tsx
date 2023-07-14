@@ -1,12 +1,13 @@
-import HelmetMetaTag from '../../components/helmet-meta-tag/helmet-meta-tag';
+import { Helmet } from 'react-helmet-async';
+
 import Header from '../../components/header/header';
 
 function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <HelmetMetaTag>
+      <Helmet>
       <title>6 cities: authorization</title>
-      </HelmetMetaTag>
+      </Helmet>
       <Header/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
