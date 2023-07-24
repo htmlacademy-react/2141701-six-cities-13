@@ -1,10 +1,8 @@
-import { useState } from 'react';
-
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
 import Header from '../../components/header/header';
-import {Offer, Point} from '../../types/offer';
+import {Offer} from '../../types/offer';
 import {City} from '../../types/city';
 
 type WelcomePageProps = {
@@ -15,12 +13,6 @@ type WelcomePageProps = {
 };
 
 function WelcomePage({ allCityList, sortTypePlace, offers, city}: WelcomePageProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
-    undefined
-  );
-  const points = offers.map(({id, coordinates}) => ({id, coordinates}));
-
   return (
     <div className="page page--gray page--main">
       <Header>
@@ -68,7 +60,7 @@ function WelcomePage({ allCityList, sortTypePlace, offers, city}: WelcomePagePro
               </div>
             </section>
             <div className="cities__right-section">
-             <Map city={city} points={points} selectedPoint={selectedPoint} mapClassName={'cities__map'}/>
+             <Map city={city} offers={offers} mapClassName={'cities__map'}/>
             </div>
           </div>
         </div>

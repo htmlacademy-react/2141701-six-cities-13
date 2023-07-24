@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
@@ -6,7 +5,7 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import Form from '../../components/form/form';
 import ReviewList from '../../components/review-list/review-list';
-import {Offer, Point} from '../../types/offer';
+import {Offer} from '../../types/offer';
 import {City} from '../../types/city';
 import {Reviews} from '../../types/review';
 import CardList from '../../components/card-list/card-list';
@@ -18,12 +17,6 @@ type OfferScreenProps = {
 };
 
 function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
-    undefined
-  );
-  const points = offers.map(({id, coordinates}) => ({id, coordinates}));
-
   return (
     <div className="page">
       <Helmet>
@@ -164,7 +157,7 @@ function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
               </ReviewList >
             </div>
           </div>
-          <Map city={city} points={points} selectedPoint={selectedPoint} mapClassName={'offer__map'}/>
+          <Map city={city} offers={offers} mapClassName={'offer__map'}/>
         </section>
         <div className="container">
           <section className="near-places places">
