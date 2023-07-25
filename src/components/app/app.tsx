@@ -11,27 +11,34 @@ import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../constants';
 import {AuthorizationStatus} from '../../constants';
 import {Offer} from '../../types/offer';
+import {City} from '../../types/city';
+import {Reviews} from '../../types/review';
 
 type AppScreenProps = {
   allCityList: string[];
   sortTypePlace: string[];
   offers: Offer[];
+  city: City;
+  reviews: Reviews;
 };
 
-function App({ allCityList, sortTypePlace, offers }: AppScreenProps): JSX.Element {
+function App({ allCityList, sortTypePlace, offers, city, reviews }: AppScreenProps): JSX.Element {
   return (
     <>
     <ScrollToTop/>
     <Routes>
-      <Route path={AppRoute.Main} element={<WelcomePage allCityList={allCityList} sortTypePlace={sortTypePlace} offers={offers}/>}/>
+      <Route path={AppRoute.Main} element={<WelcomePage allCityList={allCityList} sortTypePlace={sortTypePlace}
+       offers={offers} city={city}
+                                           />}
+      />
       <Route path={AppRoute.Login} element={<LoginPage/>}/>
       <Route path={AppRoute.Favorites} element={
       <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-        <FavoritesPage offers={offers}/>
+        <FavoritesPage offers={offers} />
       </PrivateRoute>
       }
       />
-      <Route path={AppRoute.Offer} element={<OfferPage offers={offers}/>}/>
+      <Route path={AppRoute.Offer} element={<OfferPage offers={offers} reviews={reviews} city={city}/>}/>
       <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
     </Routes>
     </>

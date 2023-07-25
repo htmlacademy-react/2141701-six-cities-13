@@ -1,16 +1,18 @@
 import CardList from '../../components/card-list/card-list';
+import Map from '../../components/map/map';
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
 import Header from '../../components/header/header';
 import {Offer} from '../../types/offer';
-
+import {City} from '../../types/city';
 
 type WelcomePageProps = {
   allCityList: string[];
   sortTypePlace: string[];
   offers: Offer[];
+  city: City;
 };
 
-function WelcomePage({ allCityList, sortTypePlace, offers}: WelcomePageProps): JSX.Element {
+function WelcomePage({ allCityList, sortTypePlace, offers, city}: WelcomePageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header>
@@ -54,11 +56,11 @@ function WelcomePage({ allCityList, sortTypePlace, offers}: WelcomePageProps): J
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <CardList offers={offers}/>
+                <CardList offers={offers} cardNameClass={'cities'}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+             <Map city={city} offers={offers} mapClassName={'cities__map'}/>
             </div>
           </div>
         </div>

@@ -1,5 +1,4 @@
-import {Offer, OwnerApartment} from '../types/offer';
-
+import {Offer, Offers, OwnerApartment} from '../types/offer';
 
 const ownerOne: OwnerApartment = {
   id: '57124697603',
@@ -36,6 +35,11 @@ const offerOne: Offer = {
    'Cabel TV',
     'Fridge'],
   text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+  coordinates: {
+    latitude: 52.3909553943508,
+  longitude: 4.85309666406198,
+  zoom: 10
+  },
   owner: [ownerOne],
 };
 
@@ -56,6 +60,11 @@ const offerTwo: Offer = {
    'Cabel TV',
     'Fridge'],
   text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+  coordinates: {
+    latitude: 52.3609553943508,
+  longitude: 4.85309666406198,
+  zoom: 10
+  },
   owner: [ownerTwo],
 };
 
@@ -80,6 +89,11 @@ const offerThree: Offer = {
    'Cabel TV',
     'Fridge'],
   text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+  coordinates: {
+    latitude: 52.3909553943508,
+  longitude: 4.929309666406198,
+  zoom: 10
+  },
   owner: [ownerOne],
 };
 
@@ -102,10 +116,13 @@ const offerFour: Offer = {
    'Cabel TV',
     'Fridge'],
   text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+  coordinates: {
+    latitude: 52.3809553943508,
+  longitude: 4.939309666406198,
+  zoom: 10
+  },
   owner: [ownerTwo],
 };
 
-type Offers = Offer[];
-
-export const Offers: Offers = [offerOne, offerTwo, offerThree, offerFour];
+export const offers: Offers = [offerOne, offerTwo, offerThree, offerFour];
 

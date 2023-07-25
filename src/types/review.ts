@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type Review = {
+export type Review = {
   id: string;
   name: string;
   avatar: string;
@@ -7,5 +6,7 @@ type Review = {
   text: string;
   data: string;
 }
+
+export type Reviews = Review[];
 
 
