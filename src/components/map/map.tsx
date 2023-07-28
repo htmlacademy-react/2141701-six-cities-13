@@ -11,6 +11,7 @@ type MapProps = {
   city: City;
   offers: Offer[];
   mapClassName: string;
+  currentOffers: Offer[];
 };
 
 const defaultCustomIcon = new Icon({
@@ -26,23 +27,27 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, mapClassName} = props;
+  const {city, offers, mapClassName, currentOffers} = props;
+  const currentCity = currentOffers[0].city;
+  console.log(currentOffers)
+
 
    // eslint-disable-next-line @typescript-eslint/no-unused-vars
    const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
     undefined
   );
 
-  const points = offers.map(({id, coordinates}) => ({id, coordinates}));
+  const points = currentOffers.map(({id, coordinates}) => ({id, coordinates}));
 
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
+        console.log('Map',point)
         const marker = new Marker({
           lat: point.coordinates.latitude,
           lng: point.coordinates.longitude

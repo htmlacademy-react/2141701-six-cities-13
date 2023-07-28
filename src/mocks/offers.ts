@@ -16,6 +16,12 @@ status: false,
 
 const offerOne: Offer = {
   id: '61105856487',
+  city: {
+    title: 'Amsterdam',
+    lat: 52.37403,
+    lng: 4.88969,
+    zoom: 10
+  },
   name: 'Place 1',
   location: 'Amsterdam',
   type: 'Apartment',
@@ -45,6 +51,12 @@ const offerOne: Offer = {
 
 const offerTwo: Offer = {
   id: '56261561659',
+  city: {
+    title: 'Amsterdam',
+    lat: 52.37403,
+    lng: 4.88969,
+    zoom: 10
+  },
   name: 'Place 2',
   location: 'Amsterdam',
   type: 'Private room',
@@ -71,6 +83,12 @@ const offerTwo: Offer = {
 const offerThree: Offer = {
   id: '92425204092',
   name: 'Place 3',
+  city: {
+    title: 'Paris',
+    lat: 48.864716,
+    lng: 2.349014,
+    zoom: 10
+  },
   location: 'Paris',
   type: 'Apartment',
   image: ['https://i.pravatar.cc/150?img=7', 'https://i.pravatar.cc/150?img=2', 'https://i.pravatar.cc/150?img=7', 'https://i.pravatar.cc/150?img=2', 'https://i.pravatar.cc/150?img=3', 'https://i.pravatar.cc/150?img=8'],
@@ -90,8 +108,8 @@ const offerThree: Offer = {
     'Fridge'],
   text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
   coordinates: {
-    latitude: 52.3909553943508,
-  longitude: 4.929309666406198,
+    latitude: 48.863824,
+  longitude: 2.334595,
   zoom: 10
   },
   owner: [ownerOne],
@@ -99,8 +117,14 @@ const offerThree: Offer = {
 
 const offerFour: Offer = {
   id: '51069206776',
-  location: 'Cologne',
   name: 'Place 4',
+  city: {
+    title: 'Paris',
+    lat: 48.864716,
+    lng: 2.349014,
+    zoom: 10
+  },
+  location: 'Paris',
   type: 'Private room',
   image: ['https://i.pravatar.cc/150?img=3','https://i.pravatar.cc/150?img=1', 'https://i.pravatar.cc/150?img=2', 'https://i.pravatar.cc/150?img=7', 'https://i.pravatar.cc/150?img=2', 'https://i.pravatar.cc/150?img=8'],
   isPremium: false,
@@ -117,8 +141,8 @@ const offerFour: Offer = {
     'Fridge'],
   text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
   coordinates: {
-    latitude: 52.3809553943508,
-  longitude: 4.939309666406198,
+    latitude: 48.854824,
+    longitude: 2.324595,
   zoom: 10
   },
   owner: [ownerTwo],

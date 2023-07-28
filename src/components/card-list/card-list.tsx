@@ -2,13 +2,13 @@ import CardPlace from '../card-place/card-place';
 import {Offer} from '../../types/offer';
 
 type CardListProps = {
-  offers: Offer[];
+  currentOffers: Offer[];
   cardNameClass: string;
 };
 
-function CardList({offers, cardNameClass}: CardListProps) {
+function CardList({currentOffers, cardNameClass}: CardListProps) {
   return (
-    <>{offers.map((offer) => <CardPlace key={offer.id} offer={offer} cardNameClass={cardNameClass}/>)}</>
+    <>{currentOffers.map((offer) => <CardPlace key={offer.id} offer={offer} cardNameClass={cardNameClass}/>)}</>
 
   );
 }
