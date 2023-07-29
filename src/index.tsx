@@ -6,7 +6,7 @@ import {HelmetProvider} from 'react-helmet-async';
 
 
 import App from './components/app/app';
-import {store} from './store/index'
+import {store} from './store/index';
 import { ALL_CITY_LIST } from './constants';
 import { SORT_TYPE_PLACE } from './constants';
 import {offers} from './mocks/offers';

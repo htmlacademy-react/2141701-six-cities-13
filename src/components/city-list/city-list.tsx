@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import {changeCity} from '../../store/action';
 import { AppRoute } from '../../constants';
-import {ALL_CITY_LIST} from '../../constants'
+import {ALL_CITY_LIST} from '../../constants';
 
 type CityListProps = {
   currentCity: string;
@@ -15,7 +15,7 @@ function CityList({currentCity}: CityListProps) {
 
   const changeCityHandler = (city: string) => {
     dispatch(changeCity(city));
-  }
+  };
 
   return (
     <section className="locations container">
@@ -31,8 +31,8 @@ function CityList({currentCity}: CityListProps) {
         </li>
       ))}
     </ul>
-  </section>
-  )
+    </section>
+  );
 }
 
 export default CityList;

@@ -3,13 +3,10 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import useMap from '../../hooks/use-map';
-import {City} from '../../types/city';
 import {Point, Offer} from '../../types/offer';
 import{URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../constants';
 
 type MapProps = {
-  city: City;
-  offers: Offer[];
   mapClassName: string;
   currentOffers: Offer[];
 };
@@ -27,10 +24,8 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, mapClassName, currentOffers} = props;
+  const {mapClassName, currentOffers} = props;
   const currentCity = currentOffers[0].city;
-  console.log(currentOffers)
-
 
    // eslint-disable-next-line @typescript-eslint/no-unused-vars
    const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
@@ -39,7 +34,6 @@ function Map(props: MapProps): JSX.Element {
 
   const points = currentOffers.map(({id, coordinates}) => ({id, coordinates}));
 
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
 
@@ -47,7 +41,6 @@ function Map(props: MapProps): JSX.Element {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
-        console.log('Map',point)
         const marker = new Marker({
           lat: point.coordinates.latitude,
           lng: point.coordinates.longitude

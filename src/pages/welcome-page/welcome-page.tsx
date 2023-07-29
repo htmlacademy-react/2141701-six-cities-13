@@ -1,26 +1,19 @@
-import {useSelector } from 'react-redux';
-
+import {useAppSelector} from '../../hooks/index';
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
 import Header from '../../components/header/header';
-import {Offer} from '../../types/offer';
-import {City} from '../../types/city';
 import CityList from '../../components/city-list/city-list';
-import {selectCurrentCity, selectOffersByFilter, selectAllOffers} from '../../store/selectors';
 
 type WelcomePageProps = {
   sortTypePlace: string[];
-  offers: Offer[];
-  city: City;
 };
 
-function WelcomePage({sortTypePlace, offers, city}: WelcomePageProps): JSX.Element {
-  const currentCity = useSelector(selectCurrentCity);
-  // const allOffers = useSelector(selectAllOffers);
-  const currentOffers = useSelector(selectOffersByFilter);
-  // const currentOffers = allOffers.filter((item) => item.city.title === currentCity);
-  
+function WelcomePage({sortTypePlace}: WelcomePageProps): JSX.Element {
+  const currentCity = useAppSelector((state) => state.currentCity);
+  const allOffers = useAppSelector((state) => state.offers);
+  const currentOffers = allOffers.filter((item) => item.city.title === currentCity);
+
   return (
     <div className="page page--gray page--main">
       <Header>
@@ -58,7 +51,7 @@ function WelcomePage({sortTypePlace, offers, city}: WelcomePageProps): JSX.Eleme
               </div>
             </section>
             <div className="cities__right-section">
-             <Map currentOffers={currentOffers} city={city} offers={offers} mapClassName={'cities__map'}/>
+             <Map currentOffers={currentOffers} mapClassName={'cities__map'}/>
             </div>
           </div>
         </div>
