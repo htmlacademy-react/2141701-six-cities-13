@@ -1,5 +1,8 @@
+import{City} from '../types/city';
+
 export type Offer = {
   id: string;
+  city: City;
   name: string;
   location: string;
   type: string;
