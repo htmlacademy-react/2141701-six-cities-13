@@ -1,4 +1,5 @@
-import { useDispatch} from 'react-redux';
+// import { useDispatch} from 'react-redux';
+import {useAppDispatch} from '../../hooks/index';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -11,7 +12,7 @@ type CityListProps = {
 }
 
 function CityList({currentCity}: CityListProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const changeCityHandler = (city: string) => {
     dispatch(changeCity(city));

@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {Offer} from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
@@ -6,15 +5,16 @@ import { AppRoute } from '../../constants';
 type CardPlaceProps = {
   offer: Offer;
   cardNameClass: string;
+  onHoverCurrentCard: (offerId: string | undefined) => void;
 };
 
-function CardPlace({offer, cardNameClass}: CardPlaceProps): JSX.Element {
+function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
   const {id, name, image, price, type, isPremium} = offer;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentCard, setCurrentCard] = useState('');
   return (
-    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=>setCurrentCard(id)}>
+    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=>onHoverCurrentCard(id)}
+     onMouseLeave={()=>onHoverCurrentCard('')}
+    >
 {isPremium && <div className="place-card__mark">
   <span>Premium</span>
               </div>}
