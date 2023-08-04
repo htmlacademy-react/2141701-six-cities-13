@@ -13,8 +13,8 @@ function useMap(
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: currentCity.lat,
-          lng: currentCity.lng
+          lat: currentCity.location.latitude,
+          lng: currentCity.location.longitude
         },
         zoom: 10
       });
@@ -32,7 +32,8 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }else if (map && isRenderedRef.current) {
-      map.setView({ lat: currentCity.lat, lng: currentCity.lng });
+      map.setView({ lat: currentCity.location.latitude,
+        lng: currentCity.location.longitude });
     }
   }, [map, mapRef, currentCity]);
 

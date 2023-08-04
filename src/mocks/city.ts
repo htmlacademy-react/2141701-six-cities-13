@@ -1,8 +1,10 @@
 import { City } from './../types/city';
 
 export const CITY: City = {
-title: 'Amsterdam',
-lat: 52.37403,
-lng: 4.88969,
-zoom: 10
+  name: 'Paris',
+  location: {
+    latitude: 48.864716,
+    longitude: 2.349014,
+    zoom: 12,
+  },
 };

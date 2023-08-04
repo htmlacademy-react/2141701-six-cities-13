@@ -9,7 +9,7 @@ type CardPlaceProps = {
 };
 
 function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
-  const {id, name, image, price, type, isPremium} = offer;
+  const {id, title, previewImage, price, type, isPremium} = offer;
 
   return (
     <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=>onHoverCurrentCard(id)}
@@ -22,7 +22,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
   <a href="#">
     <img
       className="place-card__image"
-      src={image[0]}
+      src={previewImage}
       width={260}
       height={200}
       alt="Place image"
@@ -57,7 +57,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
   </div>
   <h2 className="place-card__name">
     <Link to={AppRoute.Offer}>
-                  {name}
+                  {title}
     </Link>
   </h2>
   <p className="place-card__type">{type}</p>

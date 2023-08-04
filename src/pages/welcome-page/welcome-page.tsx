@@ -14,8 +14,7 @@ function WelcomePage(): JSX.Element {
 
   const currentCity = useAppSelector((state) => state.currentCity);
   const allOffers = useAppSelector((state) => state.offers);
-  const currentOffers = allOffers.filter((item) => item.city.title === currentCity);
-
+  const currentOffers = allOffers.filter((item) => item.city.name === currentCity.name);
   const currentSortTask = useAppSelector((state) => state.currentTaskSort);
   const allSortTask = useAppSelector((state) => state.taskSort);
 
@@ -38,14 +37,14 @@ function WelcomePage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {currentCity}</b>
+              <b className="places__found">{currentOffers.length} places to stay in {currentCity.name}</b>
               <SortedItems allSortTask={allSortTask} currentSortTask={currentSortTask}/>
               <div className="cities__places-list places__list tabs__content">
                 <CardList onHoverCurrentCard={onHoverCurrentCard} currentSortTask={currentSortTask} currentOffers={currentOffers} cardNameClass={'cities'}/>
               </div>
             </section>
             <div className="cities__right-section">
-             <Map currentOffers={currentOffers} selectedPoint={currentOffer} mapClassName={'cities__map'}/>
+             <Map currentOffers={currentOffers} selectedPoint={currentOffer} mapClassName={'cities__map'} currentCity={currentCity}/>
             </div>
           </div>
         </div>

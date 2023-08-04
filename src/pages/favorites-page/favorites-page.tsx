@@ -27,7 +27,7 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                  <div className="favorites__locations locations locations--current">
                    <div className="locations__item">
                      <a className="locations__item-link" href="#">
-                       <span>{offer.location}</span>
+                       {/* <span>{offer.location}</span> */}
                      </a>
                    </div>
                  </div>
@@ -40,7 +40,7 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                        <a href="#">
                          <img
                            className="place-card__image"
-                           src={offer.image}
+                          //  src={offer.image}
                            width={150}
                            height={110}
                            alt="Place image"
@@ -76,7 +76,7 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                          </div>
                        </div>
                        <h2 className="place-card__name">
-                         <a href="#">{offer.name}</a>
+                         {/* <a href="#">{offer.name}</a> */}
                        </h2>
                        <p className="place-card__type">{offer.type}</p>
                      </div>
