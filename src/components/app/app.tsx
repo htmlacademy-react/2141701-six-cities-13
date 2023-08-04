@@ -13,6 +13,8 @@ import {AuthorizationStatus} from '../../constants';
 import {Offer} from '../../types/offer';
 import {City} from '../../types/city';
 import {Reviews} from '../../types/review';
+import { useAppSelector } from '../../hooks';
+import Preloader from '../preloader/preloader';
 
 type AppScreenProps = {
   offers: Offer[];
@@ -20,7 +22,17 @@ type AppScreenProps = {
   reviews: Reviews;
 };
 
+
 function App({ offers, city, reviews }: AppScreenProps): JSX.Element {
+  // const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isLoadingData = useAppSelector((state) => state.isLoadingData);
+
+  if (isLoadingData) {
+    return (
+      <Preloader/>
+    );
+  }
+
   return (
     <>
     <ScrollToTop/>

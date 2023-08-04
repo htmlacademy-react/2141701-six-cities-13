@@ -11,17 +11,20 @@ import { ALL_CITY_LIST } from './constants';
 import {offers} from './mocks/offers';
 import {CITY} from './mocks/city';
 import {allReviews} from './mocks/review';
+import {fetchOffersData} from '../src/store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+store.dispatch(fetchOffersData());
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
     <HelmetProvider>
     <BrowserRouter>
-    <App allCityList={ALL_CITY_LIST} offers={offers} city={CITY} reviews={allReviews}/>
+    <App offers={offers} city={CITY} reviews={allReviews}/>
     </BrowserRouter>
     </HelmetProvider>
     </Provider>

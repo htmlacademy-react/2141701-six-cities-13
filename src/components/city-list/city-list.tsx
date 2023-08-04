@@ -1,33 +1,33 @@
-// import { useDispatch} from 'react-redux';
 import {useAppDispatch} from '../../hooks/index';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
 import {changeCity} from '../../store/action';
 import { AppRoute } from '../../constants';
-import {ALL_CITY_LIST} from '../../constants';
+import {CITIES} from '../../constants';
+import { City } from '../../types/city';
 
 type CityListProps = {
-  currentCity: string;
+  currentCity: City;
 }
 
 function CityList({currentCity}: CityListProps) {
   const dispatch = useAppDispatch();
 
-  const changeCityHandler = (city: string) => {
+  const changeCityHandler = (city: City) => {
     dispatch(changeCity(city));
   };
 
   return (
     <section className="locations container">
     <ul className="locations__list tabs__list">
-      {ALL_CITY_LIST.map((city) => (
-        <li key={city} className="locations__item" >
+      {CITIES.map((city) => (
+        <li key={city.name} className="locations__item" >
           <Link className={cn('locations__item-link tabs__item',
            { 'tabs__item--active': city === currentCity})} to={AppRoute.Main}
            onClick={()=>changeCityHandler(city)}
           >
-            <span>{city}</span>
+            <span>{city.name}</span>
           </Link>
         </li>
       ))}

@@ -1,20 +1,28 @@
 import{City} from '../types/city';
 
 export type Offer = {
-  id: string;
-  city: City;
-  name: string;
-  location: string;
-  type: string;
-  image: string[];
-  isPremium: boolean;
-  rating: number;
-  description: string[];
-  price: number;
-  items: string[];
-  text: string;
-  coordinates: Coordinates;
-  owner: OwnerApartment [];
+    id: string;
+    title: string;
+    type: string;
+    price: number;
+    city: {
+    name: string;
+    location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    };
+  };
+    location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+    };
+    isFavorite: false;
+    isPremium: false;
+    rating: number;
+    previewImage: string;
+
 };
 export type Offers = Offer[];
 
