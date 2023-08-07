@@ -24,10 +24,10 @@ type AppScreenProps = {
 
 
 function App({ offers, city, reviews }: AppScreenProps): JSX.Element {
-  // const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isLoadingData = useAppSelector((state) => state.isLoadingData);
 
-  if (isLoadingData) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isLoadingData) {
     return (
       <Preloader/>
     );
@@ -40,7 +40,7 @@ function App({ offers, city, reviews }: AppScreenProps): JSX.Element {
       <Route path={AppRoute.Main} element={<WelcomePage/>}/>
       <Route path={AppRoute.Login} element={<LoginPage/>}/>
       <Route path={AppRoute.Favorites} element={
-      <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+      <PrivateRoute authorizationStatus={authorizationStatus}>
         <FavoritesPage offers={offers} />
       </PrivateRoute>
       }
