@@ -1,7 +1,4 @@
 import {City} from './types/city';
-
-export const TIMEOUT_SHOW_ERROR = 2000;
-
 export const DEFAULT_SORT = 'Popular';
 
 export const ALL_CITY_LIST = [
