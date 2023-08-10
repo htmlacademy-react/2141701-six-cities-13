@@ -1,38 +1,35 @@
-import {useRef, useEffect, useState} from 'react';
+import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import useMap from '../../hooks/use-map';
-import {Point, Offer} from '../../types/offer';
+import {Offer} from '../../types/offer';
 import{URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../constants';
+import { City } from '../../types/city';
 
 type MapProps = {
   mapClassName: string;
   currentOffers: Offer[];
+  selectedPoint: Offer | undefined;
+  currentCity: City;
 };
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [35, 39],
+  iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [35, 39],
+  iconAnchor: [13.5, 39]
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {mapClassName, currentOffers} = props;
-  const currentCity = currentOffers[0].city;
+  const {mapClassName, currentOffers, selectedPoint, currentCity} = props;
 
-   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
-    undefined
-  );
-
-  const points = currentOffers.map(({id, coordinates}) => ({id, coordinates}));
+  const points = currentOffers.map(({id, location}) => ({id, location}));
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
@@ -42,8 +39,8 @@ function Map(props: MapProps): JSX.Element {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({
-          lat: point.coordinates.latitude,
-          lng: point.coordinates.longitude
+          lat: point.location.latitude,
+          lng: point.location.longitude,
         });
 
         marker

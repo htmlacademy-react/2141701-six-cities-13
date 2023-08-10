@@ -13,27 +13,34 @@ import {AuthorizationStatus} from '../../constants';
 import {Offer} from '../../types/offer';
 import {City} from '../../types/city';
 import {Reviews} from '../../types/review';
+import { useAppSelector } from '../../hooks';
+import Preloader from '../preloader/preloader';
 
 type AppScreenProps = {
-  allCityList: string[];
-  sortTypePlace: string[];
   offers: Offer[];
   city: City;
   reviews: Reviews;
 };
 
-function App({ allCityList, sortTypePlace, offers, city, reviews }: AppScreenProps): JSX.Element {
+
+function App({ offers, city, reviews }: AppScreenProps): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isLoadingData = useAppSelector((state) => state.isLoadingData);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isLoadingData) {
+    return (
+      <Preloader/>
+    );
+  }
+
   return (
     <>
     <ScrollToTop/>
     <Routes>
-      <Route path={AppRoute.Main} element={<WelcomePage allCityList={allCityList} sortTypePlace={sortTypePlace}
-       offers={offers} city={city}
-                                           />}
-      />
+      <Route path={AppRoute.Main} element={<WelcomePage/>}/>
       <Route path={AppRoute.Login} element={<LoginPage/>}/>
       <Route path={AppRoute.Favorites} element={
-      <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+      <PrivateRoute authorizationStatus={authorizationStatus}>
         <FavoritesPage offers={offers} />
       </PrivateRoute>
       }

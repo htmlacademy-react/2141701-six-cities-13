@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {Offer} from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
@@ -6,15 +5,16 @@ import { AppRoute } from '../../constants';
 type CardPlaceProps = {
   offer: Offer;
   cardNameClass: string;
+  onHoverCurrentCard: (offerId: string | undefined) => void;
 };
 
-function CardPlace({offer, cardNameClass}: CardPlaceProps): JSX.Element {
-  const {id, name, image, price, type, isPremium} = offer;
+function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
+  const {id, title, previewImage, price, type, isPremium} = offer;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentCard, setCurrentCard] = useState('');
   return (
-    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=>setCurrentCard(id)}>
+    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=>onHoverCurrentCard(id)}
+     onMouseLeave={()=>onHoverCurrentCard('')}
+    >
 {isPremium && <div className="place-card__mark">
   <span>Premium</span>
               </div>}
@@ -22,7 +22,7 @@ function CardPlace({offer, cardNameClass}: CardPlaceProps): JSX.Element {
   <a href="#">
     <img
       className="place-card__image"
-      src={image[0]}
+      src={previewImage}
       width={260}
       height={200}
       alt="Place image"
@@ -57,7 +57,7 @@ function CardPlace({offer, cardNameClass}: CardPlaceProps): JSX.Element {
   </div>
   <h2 className="place-card__name">
     <Link to={AppRoute.Offer}>
-                  {name}
+                  {title}
     </Link>
   </h2>
   <p className="place-card__type">{type}</p>
