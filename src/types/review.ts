@@ -1,12 +1,15 @@
 export type Review = {
   id: string;
-  name: string;
-  avatar: string;
+  date: string;
+  user: User;
+  comment: string;
   rating: number;
-  text: string;
-  data: string;
-}
+};
 
-export type Reviews = Review[];
+export type User = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+};
 
-
+export type Comment = Omit <Review, 'user'|'date'>;

@@ -1,8 +1,8 @@
 import ReviewItem from '../review-item/review-item';
-import {Reviews} from '../../types/review';
+import {Review} from '../../types/review';
 
 type ReviewListProps = {
-  reviews: Reviews;
+  reviews: Review[];
   children?: React.ReactNode | undefined;
 };
 

@@ -16,12 +16,22 @@ export type Offer = {
     longitude: number;
     zoom: number;
     };
-    isFavorite: false;
-    isPremium: false;
+    isFavorite: boolean;
+    isPremium: boolean;
     rating: number;
     previewImage: string;
-
+    description: string;
+bedrooms: number;
+goods: string [];
+host: {
+name: string;
+avatarUrl: string;
+isPro: boolean;
 };
+images: string[];
+maxAdults: number;
+};
+
 export type Offers = Offer[];
 
 export type Coordinates = {

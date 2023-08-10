@@ -1,4 +1,5 @@
 import {Routes, Route} from 'react-router-dom';
+import {useEffect} from 'react';
 
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import WelcomePage from '../../pages/welcome-page/welcome-page';
@@ -10,19 +11,22 @@ import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../constants';
 import {AuthorizationStatus} from '../../constants';
 import {Offer} from '../../types/offer';
-import {City} from '../../types/city';
-import {Reviews} from '../../types/review';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Preloader from '../preloader/preloader';
+import { checkAuthAction, fetchOffersData } from '../../store/api-actions';
 
 type AppScreenProps = {
   offers: Offer[];
-  city: City;
-  reviews: Reviews;
 };
 
+function App({ offers }: AppScreenProps): JSX.Element {
+  const dispatch = useAppDispatch();
 
-function App({ offers, city, reviews }: AppScreenProps): JSX.Element {
+  useEffect(() => {
+    dispatch(fetchOffersData());
+    dispatch(checkAuthAction());
+  }, [dispatch]);
+
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isLoadingData = useAppSelector((state) => state.isLoadingData);
 
@@ -44,7 +48,7 @@ function App({ offers, city, reviews }: AppScreenProps): JSX.Element {
       </PrivateRoute>
       }
       />
-      <Route path={AppRoute.Offer} element={<OfferPage offers={offers} reviews={reviews} city={city}/>}/>
+      <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage />}/>
       <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
     </Routes>
     </>

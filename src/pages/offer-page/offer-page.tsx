@@ -5,22 +5,50 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import Form from '../../components/form/form';
 import ReviewList from '../../components/review-list/review-list';
-import {Offer} from '../../types/offer';
-import {City} from '../../types/city';
-import {Reviews} from '../../types/review';
 import CardList from '../../components/card-list/card-list';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useParams } from 'react-router-dom';
+import {fetchOfferData, fetchOffersNearby, fetchReviewsData} from '../../store/api-actions';
+import { useEffect, useState } from 'react';
+import {Offer} from '../../types/offer';
+import Preloader from '../../components/preloader/preloader';
+import { AuthorizationStatus } from '../../constants';
 
-type OfferScreenProps = {
-  offers: Offer[];
-  reviews: Reviews;
-  city: City;
+
+function OfferPage(): JSX.Element {
+  const [currentOffer, setCurrentOffer] = useState<Offer | undefined>(undefined);
+
+const offer = useAppSelector((state) => state.offer);
+const currentOffers = useAppSelector((state) => state.offersNearby);
+const currentSortTask = useAppSelector((state) => state.currentTaskSort);
+const currentCity = useAppSelector((state) => state.currentCity);
+const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+const reviews = useAppSelector((state) => state.reviews);
+
+const dispatch = useAppDispatch();
+const {id} = useParams();
+
+const onHoverCurrentCard = (offerId: string | undefined) => {
+  const card = currentOffers.find((item) => item.id === offerId);
+  setCurrentOffer(card);
 };
 
-function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
+useEffect(() => {
+  if(id !== undefined){
+   dispatch(fetchOfferData(id));
+  dispatch(fetchOffersNearby(id));
+  dispatch(fetchReviewsData(id));
+  }
+}, [id, dispatch]);
+
+if (!offer) {
+  return <Preloader/>;
+}
+
   return (
     <div className="page">
       <Helmet>
-      <title>6 cities: offer</title>
+      <title>6 cities: </title>
       </Helmet>
       <Header>
         <HeaderNavigation/>
@@ -29,48 +57,13 @@ function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
+              {offer?.images.map((item) => (<div key={item} className="offer__image-wrapper">
                 <img
                   className="offer__image"
-                  src="img/room.jpg"
+                  src={item}
                   alt="Photo studio"
                 />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-02.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-03.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/studio-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="offer__image-wrapper">
-                <img
-                  className="offer__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
+                                            </div>))}
             </div>
           </div>
           <div className="offer__container container">
@@ -80,7 +73,7 @@ function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-              Beautiful &amp; luxurious studio at great location
+             {offer?.title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width={31} height={33}>
@@ -94,34 +87,25 @@ function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
                   <span style={{ width: '80%' }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">{offer?.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">Apartment</li>
+                <li className="offer__feature offer__feature--entire">{offer?.type}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-              3 Bedrooms
+              {offer?.bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-              Max 4 adults
+              Max {offer?.maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">€120</b>
+                <b className="offer__price-value">{offer?.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">Wi-Fi</li>
-                  <li className="offer__inside-item">Washing machine</li>
-                  <li className="offer__inside-item">Towels</li>
-                  <li className="offer__inside-item">Heating</li>
-                  <li className="offer__inside-item">Coffee machine</li>
-                  <li className="offer__inside-item">Baby seat</li>
-                  <li className="offer__inside-item">Kitchen</li>
-                  <li className="offer__inside-item">Dishwasher</li>
-                  <li className="offer__inside-item">Cabel TV</li>
-                  <li className="offer__inside-item">Fridge</li>
+                  {offer?.goods.map((item) => <li key={item} className="offer__inside-item">{item}</li>)}
                 </ul>
               </div>
               <div className="offer__host">
@@ -130,34 +114,27 @@ function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                     <img
                       className="offer__avatar user__avatar"
-                      src="img/avatar-angelina.jpg"
+                      src={offer?.host.avatarUrl}
                       width={74}
                       height={74}
                       alt="Host avatar"
                     />
                   </div>
-                  <span className="offer__user-name">Angelina</span>
-                  <span className="offer__user-status">Pro</span>
+                  <span className="offer__user-name">{offer?.host.name}</span>
+                  <span className="offer__user-status">{offer?.host.isPro ? 'Pro' : ''}</span>
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                A quiet cozy and picturesque that hides behind a a river by the
-                unique lightness of Amsterdam. The building is green and from
-                18th century.
-                  </p>
-                  <p className="offer__text">
-                An independent House, strategically located between Rembrand
-                Square and National Opera, but where the bustle of the city
-                comes to rest in this alley flowery and colorful.
+               {offer?.description}
                   </p>
                 </div>
               </div>
-              <ReviewList reviews={reviews} >
-                <Form/>
+              <ReviewList reviews={reviews}>
+                {authorizationStatus === AuthorizationStatus.Auth && <Form offerId={id}/>}
               </ReviewList >
             </div>
           </div>
-          <Map city={city} offers={offers} mapClassName={'offer__map'}/>
+          <Map currentOffers={currentOffers} selectedPoint={currentOffer} currentCity={currentCity} mapClassName={'offer__map'} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -165,7 +142,9 @@ function OfferPage({offers, reviews, city}: OfferScreenProps): JSX.Element {
           Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-             <CardList offers={offers} cardNameClass={'near-places'}/>
+             <CardList currentOffers={currentOffers} onHoverCurrentCard={onHoverCurrentCard}
+              currentSortTask={currentSortTask} cardNameClass={'near-places'}
+             />
             </div>
           </section>
         </div>

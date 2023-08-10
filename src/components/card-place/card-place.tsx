@@ -2,6 +2,7 @@ import {Offer} from '../../types/offer';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 
+
 type CardPlaceProps = {
   offer: Offer;
   cardNameClass: string;
@@ -19,7 +20,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
   <span>Premium</span>
               </div>}
 <div className="cities__image-wrapper place-card__image-wrapper">
-  <a href="#">
+  <Link to={`${AppRoute.Offer}/${id}`}>
     <img
       className="place-card__image"
       src={previewImage}
@@ -27,7 +28,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
       height={200}
       alt="Place image"
     />
-  </a>
+  </Link>
 </div>
 <div className="place-card__info">
   <div className="place-card__price-wrapper">
@@ -56,7 +57,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
     </div>
   </div>
   <h2 className="place-card__name">
-    <Link to={AppRoute.Offer}>
+    <Link to={`${AppRoute.Offer}/${id}`}>
                   {title}
     </Link>
   </h2>

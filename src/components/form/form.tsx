@@ -1,8 +1,16 @@
 import {ChangeEvent, useState} from 'react';
+import {fetchPostReview} from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks';
 
-function Form() {
+type FormProps = {
+  offerId: string;
+}
+
+function Form({offerId}: FormProps) {
+
+const dispatch = useAppDispatch();
   const[formData, setFormData] = useState({
-    rating: '',
+    rating: 0,
     review: '',
   });
 
@@ -10,9 +18,17 @@ function Form() {
     const {name, value} = evt.target;
     setFormData({...formData, [name]: value});
   };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(fetchPostReview({
+      id: offerId,
+      rating: Number(formData.rating),
+      comment: formData.review
+    }));
+  };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
                   <label className="reviews__label form__label" htmlFor="review">
                 Your review
                   </label>
@@ -121,7 +137,7 @@ function Form() {
                     <button
                       className="reviews__submit form__submit button"
                       type="submit"
-                      disabled
+                      // disabled
                     >
                   Submit
                     </button>
