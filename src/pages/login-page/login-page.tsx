@@ -4,12 +4,9 @@ import {useState, ChangeEvent, FormEvent} from 'react';
 import Header from '../../components/header/header';
 import {loginAction} from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks';
-import { useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../constants';
 
 function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
  const [valueForm, setValueForm] = useState({
   email: '',
@@ -28,7 +25,6 @@ const handlerSubmit = (evt: FormEvent) => {
     dispatch(loginAction(valueForm));
   }
 
-  navigate(AppRoute.Main);
 };
 
 

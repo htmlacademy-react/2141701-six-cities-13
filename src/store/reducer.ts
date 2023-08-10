@@ -1,7 +1,7 @@
 import { AuthorizationStatus } from './../constants';
 import {createReducer} from '@reduxjs/toolkit';
 
-import {changeCity, changeSortTask, requireAuthorization, setError, getOffersData, setDataLoading} from '../store/action';
+import {changeCity, changeSortTask, requireAuthorization, getOffersData, setDataLoading} from '../store/action';
 import {Offers} from '../types/offer';
 import {SORT_TYPE_PLACE} from '../constants';
 import {CITIES} from '../constants';
@@ -14,7 +14,6 @@ type ReducerType = {
   taskSort: typeof SORT_TYPE_PLACE;
   authorizationStatus: AuthorizationStatus;
   isLoadingData: boolean;
-  error: string | null;
 };
 
 const initialState: ReducerType = {
@@ -24,7 +23,6 @@ const initialState: ReducerType = {
   taskSort: SORT_TYPE_PLACE,
   authorizationStatus: AuthorizationStatus.Unknown,
   isLoadingData: false,
-  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -43,12 +41,7 @@ const reducer = createReducer(initialState, (builder) => {
   })
   .addCase(setDataLoading, (state, action) => {
     state.isLoadingData = action.payload;
-  })
-  .addCase(setError, (state, action) => {
-    state.error = action.payload;
   });
-
-
 });
 
 

@@ -1,3 +1,4 @@
+import { redirect } from './middlewares/redirect';
 import {configureStore} from '@reduxjs/toolkit';
 
 import {reducer} from './reducer';
@@ -12,5 +13,5 @@ export const store = configureStore({
       thunk: {
         extraArgument: api,
       },
-    }),
+    }).concat(redirect)
 });
