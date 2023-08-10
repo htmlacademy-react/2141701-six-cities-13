@@ -10,16 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from './components/app/app';
 import {store} from './store/index';
 import {offers} from './mocks/offers';
-import {CITY} from './mocks/city';
-import {allReviews} from './mocks/review';
-import {checkAuthAction, fetchOffersData} from '../src/store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-store.dispatch(fetchOffersData());
-store.dispatch(checkAuthAction());
 
 root.render(
   <React.StrictMode>
@@ -27,7 +21,7 @@ root.render(
     <ToastContainer/>
     <HelmetProvider>
     <HistoryRouter history={browserHistory}>
-    <App offers={offers} city={CITY} reviews={allReviews}/>
+    <App offers={offers}/>
     </HistoryRouter>
     </HelmetProvider>
     </Provider>

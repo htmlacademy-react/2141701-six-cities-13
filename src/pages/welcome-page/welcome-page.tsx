@@ -8,9 +8,6 @@ import Header from '../../components/header/header';
 import CityList from '../../components/city-list/city-list';
 import SortedItems from '../../components/sorted-items/sorted-items';
 import {Offer} from '../../types/offer';
-// import { store } from '../../store';
-// import {fetchOffersData} from '../../store/api-actions';
-// import {store} from '../../store/index';
 
 function WelcomePage(): JSX.Element {
  const [currentOffer, setCurrentOffer] = useState<Offer | undefined>(undefined);
@@ -22,10 +19,9 @@ function WelcomePage(): JSX.Element {
   const allSortTask = useAppSelector((state) => state.taskSort);
 
   const onHoverCurrentCard = (offerId: string | undefined) => {
-    const card = currentOffers.find((offer) => offer.id === offerId);
+    const card = currentOffers.find((item) => item.id === offerId);
     setCurrentOffer(card);
   };
-  // const stateOffers = store.getState().authorizationStatus;
 
   // useEffect(() => {
   //   store.dispatch(fetchOffersData());
