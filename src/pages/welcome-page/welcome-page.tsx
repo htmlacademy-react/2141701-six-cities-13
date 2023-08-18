@@ -1,6 +1,6 @@
-import {useAppSelector} from '../../hooks/index';
 import { useState } from 'react';
 
+import {useAppSelector} from '../../hooks/index';
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
@@ -8,27 +8,41 @@ import Header from '../../components/header/header';
 import CityList from '../../components/city-list/city-list';
 import SortedItems from '../../components/sorted-items/sorted-items';
 import {Offer} from '../../types/offer';
+import Preloader from '../../components/preloader/preloader';
+import {LoadingData, getAllSortTask, getCurrentSortTask, getAllOffers, getCurrentCity} from '../../store/offers-process/offers-process.selector';
+import MainEmptyPage from '../main-empty-page/main-empty-page';
+import {AuthorizationStatus} from '../../constants';
 
-function WelcomePage(): JSX.Element {
+type WelcomePageProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function WelcomePage({authorizationStatus}: WelcomePageProps): JSX.Element {
  const [currentOffer, setCurrentOffer] = useState<Offer | undefined>(undefined);
 
-  const currentCity = useAppSelector((state) => state.currentCity);
-  const allOffers = useAppSelector((state) => state.offers);
+  const currentCity = useAppSelector(getCurrentCity);
+  const allOffers = useAppSelector(getAllOffers);
   const currentOffers = allOffers.filter((item) => item.city.name === currentCity.name);
-  const currentSortTask = useAppSelector((state) => state.currentTaskSort);
-  const allSortTask = useAppSelector((state) => state.taskSort);
+  const currentSortTask = useAppSelector(getCurrentSortTask);
+  const allSortTask = useAppSelector(getAllSortTask);
 
   const onHoverCurrentCard = (offerId: string | undefined) => {
     const card = currentOffers.find((item) => item.id === offerId);
     setCurrentOffer(card);
   };
 
-  // useEffect(() => {
-  //   store.dispatch(fetchOffersData());
-  // }, [stateOffers])
+  const isLoadingData = useAppSelector(LoadingData);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isLoadingData) {
+    return (
+      <Preloader/>
+    );
+  }
 
   return (
-    <div className="page page--gray page--main">
+    <div>
+    {allOffers.length ?
+      (<div className="page page--gray page--main">
       <Header>
         <HeaderNavigation/>
       </Header>
@@ -53,6 +67,8 @@ function WelcomePage(): JSX.Element {
           </div>
         </div>
       </main>
+       </div>)
+      : <MainEmptyPage/>}
     </div>
   );
 }

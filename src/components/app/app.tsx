@@ -9,42 +9,31 @@ import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../constants';
-import {AuthorizationStatus} from '../../constants';
-import {Offer} from '../../types/offer';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import Preloader from '../preloader/preloader';
+import { useAppDispatch, useAppSelector} from '../../hooks';
 import { checkAuthAction, fetchOffersData } from '../../store/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
 
-type AppScreenProps = {
-  offers: Offer[];
-};
-
-function App({ offers }: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  useEffect(() => {
+  // dispatch(fetchOffersData());
+  // dispatch(checkAuthAction());
+
+   useEffect(() => {
     dispatch(fetchOffersData());
     dispatch(checkAuthAction());
-  }, [dispatch]);
-
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isLoadingData = useAppSelector((state) => state.isLoadingData);
-
-  if (authorizationStatus === AuthorizationStatus.Unknown || isLoadingData) {
-    return (
-      <Preloader/>
-    );
-  }
+   }, [dispatch]);
 
   return (
     <>
     <ScrollToTop/>
     <Routes>
-      <Route path={AppRoute.Main} element={<WelcomePage/>}/>
+      <Route path={AppRoute.Main} element={<WelcomePage authorizationStatus={authorizationStatus}/>}/>
       <Route path={AppRoute.Login} element={<LoginPage/>}/>
       <Route path={AppRoute.Favorites} element={
       <PrivateRoute authorizationStatus={authorizationStatus}>
-        <FavoritesPage offers={offers} />
+        <FavoritesPage />
       </PrivateRoute>
       }
       />

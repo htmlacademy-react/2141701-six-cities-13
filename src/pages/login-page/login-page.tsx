@@ -13,7 +13,7 @@ function LoginPage(): JSX.Element {
   password: ''
  });
 
- const handleFieldChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>)=> {
+ const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>)=> {
   const {name, value} = evt.target;
   setValueForm({...valueForm, [name]: value});
 };

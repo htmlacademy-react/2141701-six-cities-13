@@ -6,7 +6,7 @@ type CardListProps = {
   currentOffers: Offer[];
   cardNameClass: string;
   currentSortTask: string;
-  onHoverCurrentCard: (offerId: string | undefined) => void;
+  onHoverCurrentCard: (offerId: string) => void;
 };
 
 function CardList({currentOffers, cardNameClass, currentSortTask, onHoverCurrentCard}: CardListProps) {

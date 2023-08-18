@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import App from './components/app/app';
 import {store} from './store/index';
-import {offers} from './mocks/offers';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -21,7 +20,7 @@ root.render(
     <ToastContainer/>
     <HelmetProvider>
     <HistoryRouter history={browserHistory}>
-    <App offers={offers}/>
+    <App />
     </HistoryRouter>
     </HelmetProvider>
     </Provider>

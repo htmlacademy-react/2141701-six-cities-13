@@ -13,42 +13,50 @@ import { useEffect, useState } from 'react';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
 import { AuthorizationStatus } from '../../constants';
+import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
+import {ButtonSettingOfferItem} from '../../constants';
+import {getCurrentOffer, LoadingData} from '../../store/offer-process/offer-process.select';
+import {getOffersNearby} from '../../store/offers-nearby-process/offers-nearby-process.selector';
+import {getCurrentSortTask, getCurrentCity} from '../../store/offers-process/offers-process.selector';
+import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
+import {getCurrentReviews} from '../../store/review-process/review-process.selector';
 
 
 function OfferPage(): JSX.Element {
   const [currentOffer, setCurrentOffer] = useState<Offer | undefined>(undefined);
 
-const offer = useAppSelector((state) => state.offer);
-const currentOffers = useAppSelector((state) => state.offersNearby);
-const currentSortTask = useAppSelector((state) => state.currentTaskSort);
-const currentCity = useAppSelector((state) => state.currentCity);
-const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-const reviews = useAppSelector((state) => state.reviews);
+const offer = useAppSelector(getCurrentOffer);
+const currentOffers = useAppSelector(getOffersNearby);
+const currentSortTask = useAppSelector(getCurrentSortTask);
+const currentCity = useAppSelector(getCurrentCity);
+const authorizationStatus = useAppSelector(getAuthorizationStatus);
+const reviews = useAppSelector(getCurrentReviews);
+const isLoadingData = useAppSelector(LoadingData);
 
 const dispatch = useAppDispatch();
 const {id} = useParams();
 
-const onHoverCurrentCard = (offerId: string | undefined) => {
+const onHoverCurrentCard = (offerId: string) => {
   const card = currentOffers.find((item) => item.id === offerId);
   setCurrentOffer(card);
 };
 
 useEffect(() => {
-  if(id !== undefined){
+  if(id) {
    dispatch(fetchOfferData(id));
   dispatch(fetchOffersNearby(id));
   dispatch(fetchReviewsData(id));
   }
 }, [id, dispatch]);
 
-if (!offer) {
+if (isLoadingData) {
   return <Preloader/>;
 }
 
   return (
     <div className="page">
       <Helmet>
-      <title>6 cities: </title>
+      <title>6 cities:{`${offer?.title ?? 'Offer'}`} </title>
       </Helmet>
       <Header>
         <HeaderNavigation/>
@@ -75,16 +83,11 @@ if (!offer) {
                 <h1 className="offer__name">
              {offer?.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <ButtonBookmark buttonSetting={ButtonSettingOfferItem} offer={offer}/>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: '80%' }} />
+                  <span style={{ width: `${offer?.rating * 100 / 5}%` }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer?.rating}</span>
