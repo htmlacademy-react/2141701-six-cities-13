@@ -12,6 +12,7 @@ function Form({offerId}: FormProps) {
     rating: 0,
     review: '',
   };
+
 const [buttonDisable, setButtonDisabled] = useState(true);
 const[formData, setFormData] = useState(initialState);
 const dispatch = useAppDispatch();
@@ -20,6 +21,8 @@ const dispatch = useAppDispatch();
     const {name, value} = evt.target;
     setFormData({...formData, [name]: value});
   };
+
+  const formDataCheckLength = formData.review.length >= 50 && formData.review.length < 300;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,8 +34,9 @@ const dispatch = useAppDispatch();
     setFormData(initialState);
   };
 
+
   useEffect(() => {
-    if (formData.rating >= 1 && formData.review.length >= 50) {
+    if (formData.rating >= 1 && formDataCheckLength) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
@@ -67,6 +71,11 @@ const dispatch = useAppDispatch();
           </div>
         ))}
              </div>
+             {formData.review.length > 0 && !formDataCheckLength ? (
+    <p className="form__error" style={{ color: '#FF0000' }}>
+      Текст отзыва должен содержать от 50 до 300 символов.
+    </p>
+  ) : null}
                   <textarea
                   onChange={handleFieldChange}
                     className="reviews__textarea form__textarea"

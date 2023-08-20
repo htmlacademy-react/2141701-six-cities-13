@@ -5,16 +5,18 @@ import { Offer } from '../../types/offer';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
 import {ButtonSettingPlaceCard} from '../../constants';
 
+
 type FavoriteItemProps = {
   offer: Offer;
 }
 
 function FavoriteItem({offer}:FavoriteItemProps) {
+
   return (
     <li key={offer.id} className="favorites__locations-items" >
                  <div className="favorites__locations locations locations--current">
                    <div className="locations__item">
-                     <Link className="locations__item-link" to={`${AppRoute.Offer}/${offer.id}`}>
+                     <Link className="locations__item-link" to={AppRoute.Main}>
                        <span>{offer.city.name}</span>
                      </Link>
                    </div>

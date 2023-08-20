@@ -1,6 +1,7 @@
 import {Navigate} from 'react-router-dom';
 
 import {AuthorizationStatus} from '../../constants';
+import Preloader from '../preloader/preloader';
 
 type PrivateRouteProps = {
   authorizationStatus: AuthorizationStatus;
@@ -9,12 +10,17 @@ type PrivateRouteProps = {
 
 
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const {authorizationStatus, children} = props;
-  return (
-    authorizationStatus === AuthorizationStatus.Auth
-    ? children
-    : <Navigate to='/login'/>
-  );
+  const { authorizationStatus, children } = props;
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <Preloader/>;
+  }
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return children;
+  }
+
+  return <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

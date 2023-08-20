@@ -1,11 +1,16 @@
 import { Helmet } from 'react-helmet-async';
 import {useState, ChangeEvent, FormEvent} from 'react';
+import { Link } from 'react-router-dom';
+import {useEffect} from 'react';
 
 import Header from '../../components/header/header';
 import {loginAction} from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks';
+import { AppRoute, getRandomItem, CITIES} from '../../constants';
+import {changeCity} from '../../store/offers-process/offers-process.slice';
 
 function LoginPage(): JSX.Element {
+  const currenCity = getRandomItem(CITIES);
   const dispatch = useAppDispatch();
 
  const [valueForm, setValueForm] = useState({
@@ -24,9 +29,11 @@ const handlerSubmit = (evt: FormEvent) => {
   if(valueForm.email && valueForm.password){
     dispatch(loginAction(valueForm));
   }
-
 };
 
+useEffect(() => {
+  dispatch(changeCity(currenCity));
+}, []);
 
   return (
     <div className="page page--gray page--login">
@@ -70,17 +77,15 @@ const handlerSubmit = (evt: FormEvent) => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={AppRoute.Main}>
+                <span>{currenCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>
       </main>
     </div>
-
   );
-
 }
 
 export default LoginPage;

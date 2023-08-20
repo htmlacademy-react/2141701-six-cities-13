@@ -11,6 +11,7 @@ const initialState: OffersInitialState = {
   offers: [],
   taskSort: SORT_TYPE_PLACE,
   isLoadingData: false,
+  hasError: false,
 };
 
 export const offersProcess = createSlice({
@@ -28,6 +29,7 @@ export const offersProcess = createSlice({
     builder
     .addCase(fetchOffersData.pending, (state) => {
       state.isLoadingData = true;
+      state.hasError = false;
     })
     .addCase(fetchOffersData.fulfilled, (state, action) => {
       state.offers = action.payload;
@@ -35,6 +37,7 @@ export const offersProcess = createSlice({
     })
     .addCase(fetchOffersData.rejected, (state) => {
       state.isLoadingData = false;
+      state.hasError = true;
     })
     .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
       state.offers = state.offers.map((offer) =>

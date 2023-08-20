@@ -127,3 +127,10 @@ export enum NameSpace {
   Comments = 'COMMENTS',
   OfferNearby = 'OFFER_NEARBY',
 }
+
+export function getRandomItem<T> (array: T[]): T {
+const randomIndex = Math.floor(Math.random() * array.length);
+return array[randomIndex];
+}
+
+

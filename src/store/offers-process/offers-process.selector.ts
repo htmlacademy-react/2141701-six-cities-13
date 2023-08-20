@@ -8,4 +8,5 @@ export const getAllOffers = (state: RootState): Offer[] => state[NameSpace.Offer
 export const getCurrentSortTask = (state: RootState): typeof SORT_TYPE_PLACE[0] => state[NameSpace.Offers].currentTaskSort;
 export const getAllSortTask = (state: RootState): typeof SORT_TYPE_PLACE => state[NameSpace.Offers].taskSort;
 export const LoadingData = (state: RootState): boolean => state[NameSpace.Offers].isLoadingData;
+export const ErrorLoading = (state: RootState): boolean => state[NameSpace.Offers].hasError;
 

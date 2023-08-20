@@ -10,6 +10,7 @@ import {AuthData} from '../types/auth-data';
 import {Offer} from '../types/offer';
 import { AppRoute } from './../constants';
 import { Comment, Review } from '../types/review';
+import { setUserEmail } from './user-process/user-process.slice';
 
 export const loginAction = createAsyncThunk<void, AuthData, {
   dispatch: AppDispatch;
@@ -19,13 +20,15 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 >(
   'user/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+
+    dispatch(setUserEmail(data.email));
     dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 
-export const checkAuthAction = createAsyncThunk<string, undefined, {
+export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
@@ -33,8 +36,8 @@ export const checkAuthAction = createAsyncThunk<string, undefined, {
 >(
   'user/checkAuth',
   async (_arg, {extra: api}) => {
-    const {data: {email}} = await api.get<UserData>(APIRoute.Login);
-      return email;
+     await api.get<UserData>(APIRoute.Login);
+    // dispatch(setUserEmail(email));
   },
 );
 
