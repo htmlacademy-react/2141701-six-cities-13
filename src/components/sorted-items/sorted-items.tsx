@@ -1,5 +1,5 @@
 import {useAppDispatch} from '../../hooks/index';
-import {changeSortTask} from '../../store/action';
+import {changeSettingSort} from '../../store/offers-process/offers-process.slice';
 import useToggle from '../../hooks/use-toggle';
 
 type SortedItemProps = {
@@ -12,7 +12,7 @@ function SortedItems({allSortTask, currentSortTask}: SortedItemProps) {
   const dispatch = useAppDispatch();
 
   const handleClickTaskSort = (item: number) => {
-    dispatch(changeSortTask(allSortTask[item]));
+    dispatch(changeSettingSort(allSortTask[item]));
   };
 
   return (

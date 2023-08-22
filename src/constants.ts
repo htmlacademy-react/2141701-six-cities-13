@@ -1,3 +1,4 @@
+import { BtnBookMarkSetting } from './types/bookmark-btn';
 import {City} from './types/city';
 export const DEFAULT_SORT = 'Popular';
 
@@ -95,3 +96,41 @@ export const URL_MARKER_CURRENT =
       },
     },
   ];
+
+  export const ratingTitles = {
+    5: 'perfect',
+    4: 'good',
+    3: 'not bad',
+    2: 'badly',
+    1: 'poor',
+  };
+
+export const ButtonSettingPlaceCard: BtnBookMarkSetting = {
+  className: 'place-card__bookmark-button button',
+  width: 18,
+  height: 19,
+  classActive: 'place-card__bookmark-button--active',
+};
+
+export const ButtonSettingOfferItem: BtnBookMarkSetting = {
+  className: 'offer__bookmark-button button',
+  width: 31,
+  height: 33,
+  classActive: 'place-card__bookmark-button--active',
+};
+
+export enum NameSpace {
+  Favorites = 'FAVORITES',
+  Offer = 'OFFER',
+  Offers = 'OFFERS',
+  User = 'USER',
+  Comments = 'COMMENTS',
+  OfferNearby = 'OFFER_NEARBY',
+}
+
+export function getRandomItem<T> (array: T[]): T {
+const randomIndex = Math.floor(Math.random() * array.length);
+return array[randomIndex];
+}
+
+

@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import {AppRoute} from '../../constants';
 import {logoutAction, } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import {getUserEmail} from '../../store/user-process/user-process.selector';
+import { getFavoritesData } from '../../store/favorites-process/favorites-process.selector';
 
 function SignOut() {
 const dispatch = useAppDispatch();
-const userEmail = useAppSelector((state) => state.userEmail);
+const favoriteOffers = useAppSelector(getFavoritesData);
+const userEmail = useAppSelector(getUserEmail);
 
   const handlerSignOut = () => {
     dispatch(logoutAction());
@@ -22,7 +25,7 @@ const userEmail = useAppSelector((state) => state.userEmail);
       <span className="header__user-name user__name">
         {userEmail}
       </span>
-      <span className="header__favorite-count">3</span>
+      <span className="header__favorite-count">{favoriteOffers.length}</span>
     </Link>
       </li>
     <li className="header__nav-item">
@@ -31,7 +34,6 @@ const userEmail = useAppSelector((state) => state.userEmail);
     </Link>
     </li>
     </>
-
   );
 }
 
