@@ -24,6 +24,6 @@ export type OfferInitialState = Pick<InitialState, 'offer' | 'isLoadingData'>;
 export type OffersNearbyInitialState = Pick<InitialState, 'offersNearby' | 'isLoadingData'>;
 export type OffersInitialState = Pick<InitialState, 'currentCity' | 'isLoadingData' | 'currentTaskSort' | 'offers' | 'taskSort' | 'hasError'>;
 export type ReviewsInitialState = Pick<InitialState, 'reviews' | 'isLoadingData'>;
-export type UserInitialState = Pick<InitialState, 'authorizationStatus' | 'userEmail'>;
+export type UserInitialState = Pick<InitialState, 'authorizationStatus'>;
 
 

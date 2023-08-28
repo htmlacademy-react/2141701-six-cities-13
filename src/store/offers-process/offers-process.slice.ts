@@ -36,6 +36,7 @@ export const offersProcess = createSlice({
       state.isLoadingData = false;
     })
     .addCase(fetchOffersData.rejected, (state) => {
+      state.offers = [];
       state.isLoadingData = false;
       state.hasError = true;
     })

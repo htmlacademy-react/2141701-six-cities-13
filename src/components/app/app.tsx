@@ -10,18 +10,17 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute} from '../../constants';
 import { useAppDispatch, useAppSelector} from '../../hooks';
-import { checkAuthAction, fetchOffersData } from '../../store/api-actions';
+import { checkAuthAction} from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
 import ErrorPage from '../../pages/error-page/error-page';
 import { ErrorLoading } from '../../store/offers-process/offers-process.selector';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const hasError = useAppSelector(ErrorLoading);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOffersData());
     dispatch(checkAuthAction());
    }, [dispatch]);
 
@@ -32,7 +31,7 @@ if(hasError) {
     <>
     <ScrollToTop/>
     <Routes>
-      <Route path={AppRoute.Main} element={<WelcomePage authorizationStatus={authorizationStatus}/>}/>
+      <Route path={AppRoute.Main} element={<WelcomePage/>}/>
       <Route path={AppRoute.Login} element={<LoginPage/>}/>
       <Route path={AppRoute.Favorites} element={
       <PrivateRoute authorizationStatus={authorizationStatus}>

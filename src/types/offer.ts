@@ -32,19 +32,8 @@ images: string[];
 maxAdults: number;
 };
 
+export type OfferItem = Omit<Offer, 'description' | 'bedrooms' | 'goods' | 'host' | 'name' | 'avatarUrl' | 'isPro' | 'images' | 'maxAdults'>
+
+
 export type Offers = Offer[];
 
-export type Coordinates = {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-}
-export type OwnerApartment = {
-  id: string;
-  name: string;
-  avatar: string;
-  status: boolean;
-  };
-
-  export type Point = Pick<Offer, 'id' | 'coordinates'>;
-  export type Points = Point[];

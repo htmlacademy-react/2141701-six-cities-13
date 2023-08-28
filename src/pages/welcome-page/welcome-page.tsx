@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import {useEffect} from 'react';
 
-import {useAppSelector} from '../../hooks/index';
+import {useAppSelector, useAppDispatch} from '../../hooks/index';
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
@@ -11,14 +12,15 @@ import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
 import {LoadingData, getAllSortTask, getCurrentSortTask, getAllOffers, getCurrentCity} from '../../store/offers-process/offers-process.selector';
 import MainEmptyPage from '../main-empty-page/main-empty-page';
-import {AuthorizationStatus} from '../../constants';
+import {AuthorizationStatus, getLengthArrayOffers} from '../../constants';
+import {fetchOffersData } from '../../store/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
 
-type WelcomePageProps = {
-  authorizationStatus: AuthorizationStatus;
-}
-
-function WelcomePage({authorizationStatus}: WelcomePageProps): JSX.Element {
+function WelcomePage(): JSX.Element {
  const [currentOffer, setCurrentOffer] = useState<Offer | undefined>(undefined);
+ const dispatch = useAppDispatch();
+
+ const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const currentCity = useAppSelector(getCurrentCity);
   const allOffers = useAppSelector(getAllOffers);
@@ -30,6 +32,10 @@ function WelcomePage({authorizationStatus}: WelcomePageProps): JSX.Element {
     const card = currentOffers.find((item) => item.id === offerId);
     setCurrentOffer(card);
   };
+
+  useEffect(() => {
+    dispatch(fetchOffersData());
+   }, [dispatch]);
 
   const isLoadingData = useAppSelector(LoadingData);
 
@@ -55,7 +61,7 @@ function WelcomePage({authorizationStatus}: WelcomePageProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{currentOffers.length} places to stay in {currentCity.name}</b>
+              <b className="places__found">{getLengthArrayOffers(currentOffers, currentCity)}</b>
               <SortedItems allSortTask={allSortTask} currentSortTask={currentSortTask}/>
               <div className="cities__places-list places__list tabs__content">
                 <CardList onHoverCurrentCard={onHoverCurrentCard} currentSortTask={currentSortTask} currentOffers={currentOffers} cardNameClass={'cities'}/>

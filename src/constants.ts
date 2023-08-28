@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { BtnBookMarkSetting } from './types/bookmark-btn';
 import {City} from './types/city';
+import { Offer } from './types/offer';
+import { Review } from './types/review';
 export const DEFAULT_SORT = 'Popular';
 
 export const ALL_CITY_LIST = [
@@ -39,6 +43,8 @@ export enum APIRoute {
   Favorite = '/favorite',
   Comments = '/comments'
 }
+
+export const makeScrollMock = window.scrollTo = () => {};
 
 export const URL_MARKER_DEFAULT =
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
@@ -134,3 +140,55 @@ return array[randomIndex];
 }
 
 
+export function sortedReviews(array: Review[]) {
+  const sortedArray = [...array].sort((a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return sortedArray.slice(0, 10);
+}
+
+
+export function updatedReviews(array: Review[]) {
+return array.map((item) => {
+  const date = new Date(item.date);
+  const year = date.getFullYear();
+
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  const month = monthNames[date.getMonth()];
+
+  const formattedDate = `${month} ${year}`;
+
+  return {
+    ...item,
+    date: formattedDate
+  };
+});
+}
+
+export function capitalize (text: string | undefined) {
+  if (text === undefined) {
+    return '';
+  }
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+
+
+export function getLengthArrayOffers (currentOffers: Offer[], currentCity: City) {
+  if(currentOffers.length !== 0 && currentOffers.length > 1){
+    return `${currentOffers.length} places to stay in ${currentCity.name}`;
+  } if (currentOffers.length === 0) {
+    return 'No places to stay available';
+  } else {
+   return `${currentOffers.length} place to stay in ${currentCity.name}`;
+  }
+}

@@ -13,15 +13,7 @@ type FavoriteItemProps = {
 function FavoriteItem({offer}:FavoriteItemProps) {
 
   return (
-    <li key={offer.id} className="favorites__locations-items" >
-                 <div className="favorites__locations locations locations--current">
-                   <div className="locations__item">
-                     <Link className="locations__item-link" to={AppRoute.Main}>
-                       <span>{offer.city.name}</span>
-                     </Link>
-                   </div>
-                 </div>
-                 <div className="favorites__places">
+
                    <article className="favorites__card place-card">
                    {offer.isPremium && <div className="place-card__mark">
                        <span>Premium</span>
@@ -59,8 +51,6 @@ function FavoriteItem({offer}:FavoriteItemProps) {
                        <p className="place-card__type">{offer.type}</p>
                      </div>
                    </article>
-                 </div>
-    </li>
   );
 }
 

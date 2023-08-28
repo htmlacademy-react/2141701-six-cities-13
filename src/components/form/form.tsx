@@ -15,6 +15,7 @@ function Form({offerId}: FormProps) {
 
 const [buttonDisable, setButtonDisabled] = useState(true);
 const[formData, setFormData] = useState(initialState);
+
 const dispatch = useAppDispatch();
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
@@ -26,6 +27,7 @@ const dispatch = useAppDispatch();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setButtonDisabled(true);
     dispatch(fetchPostReview({
       id: offerId,
       rating: Number(formData.rating),

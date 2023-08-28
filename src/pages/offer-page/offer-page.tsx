@@ -12,7 +12,7 @@ import {fetchOfferData, fetchOffersNearby, fetchReviewsData} from '../../store/a
 import { useEffect, useState } from 'react';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
-import { AuthorizationStatus } from '../../constants';
+import { AuthorizationStatus, capitalize } from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
 import {ButtonSettingOfferItem} from '../../constants';
 import {getCurrentOffer, LoadingData} from '../../store/offer-process/offer-process.select';
@@ -40,6 +40,7 @@ const onHoverCurrentCard = (offerId: string) => {
   const card = currentOffers.find((item) => item.id === offerId);
   setCurrentOffer(card);
 };
+
 
 useEffect(() => {
   if(id) {
@@ -76,9 +77,10 @@ if (isLoadingData) {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
+              {offer?.isPremium &&
               <div className="offer__mark">
-                <span>Premium</span>
-              </div>
+              <span>Premium</span>
+              </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
              {offer?.title}
@@ -93,7 +95,7 @@ if (isLoadingData) {
                 <span className="offer__rating-value rating__value">{offer?.rating}</span>
               </div>
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{offer?.type}</li>
+                <li className="offer__feature offer__feature--entire">{capitalize(offer?.type)}</li>
                 <li className="offer__feature offer__feature--bedrooms">
               {offer?.bedrooms} Bedrooms
                 </li>

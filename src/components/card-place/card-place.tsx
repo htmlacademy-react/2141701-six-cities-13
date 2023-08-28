@@ -1,6 +1,6 @@
 import {Offer} from '../../types/offer';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../constants';
+import { AppRoute, capitalize } from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
 import {ButtonSettingPlaceCard} from '../../constants';
 
@@ -50,7 +50,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
                   {title}
     </Link>
   </h2>
-  <p className="place-card__type">{type}</p>
+  <p className="place-card__type">{capitalize(type)}</p>
 </div>
     </article>
   );
