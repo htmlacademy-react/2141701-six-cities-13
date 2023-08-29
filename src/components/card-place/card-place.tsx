@@ -1,33 +1,35 @@
-import {useState} from 'react';
 import {Offer} from '../../types/offer';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../constants';
+import { AppRoute, capitalize } from '../../constants';
+import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
+import {ButtonSettingPlaceCard} from '../../constants';
 
 type CardPlaceProps = {
   offer: Offer;
   cardNameClass: string;
+ onHoverCurrentCard?: (offerId: string) => void;
 };
 
-function CardPlace({offer, cardNameClass}: CardPlaceProps): JSX.Element {
-  const {id, name, image, price, type, isPremium} = offer;
+function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
+  const {id, title, previewImage, price, type, isPremium, rating} = offer;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentCard, setCurrentCard] = useState('');
   return (
-    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=>setCurrentCard(id)}>
+    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=> onHoverCurrentCard && onHoverCurrentCard(id)}
+     onMouseLeave={()=>onHoverCurrentCard && onHoverCurrentCard('')}
+    >
 {isPremium && <div className="place-card__mark">
   <span>Premium</span>
               </div>}
 <div className="cities__image-wrapper place-card__image-wrapper">
-  <a href="#">
+  <Link to={`${AppRoute.Offer}/${id}`}>
     <img
       className="place-card__image"
-      src={image[0]}
+      src={previewImage}
       width={260}
       height={200}
       alt="Place image"
     />
-  </a>
+  </Link>
 </div>
 <div className="place-card__info">
   <div className="place-card__price-wrapper">
@@ -35,32 +37,20 @@ function CardPlace({offer, cardNameClass}: CardPlaceProps): JSX.Element {
       <b className="place-card__price-value">€{price}</b>
       <span className="place-card__price-text">/&nbsp;night</span>
     </div>
-    <button
-      className="place-card__bookmark-button button"
-      type="button"
-    >
-      <svg
-        className="place-card__bookmark-icon"
-        width={18}
-        height={19}
-      >
-        <use xlinkHref="#icon-bookmark" />
-      </svg>
-      <span className="visually-hidden">To bookmarks</span>
-    </button>
+    <ButtonBookmark buttonSetting={ButtonSettingPlaceCard} offer={offer}/>
   </div>
   <div className="place-card__rating rating">
     <div className="place-card__stars rating__stars">
-      <span style={{ width: '80%' }} />
+      <span style={{ width: `${rating * 100 / 5}%` }} />
       <span className="visually-hidden">Rating</span>
     </div>
   </div>
   <h2 className="place-card__name">
-    <Link to={AppRoute.Offer}>
-                  {name}
+    <Link to={`${AppRoute.Offer}/${id}`}>
+                  {title}
     </Link>
   </h2>
-  <p className="place-card__type">{type}</p>
+  <p className="place-card__type">{capitalize(type)}</p>
 </div>
     </article>
   );

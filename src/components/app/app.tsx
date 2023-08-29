@@ -1,4 +1,5 @@
 import {Routes, Route} from 'react-router-dom';
+import {useEffect} from 'react';
 
 import ScrollToTop from '../../components/scroll-to-top/scroll-to-top';
 import WelcomePage from '../../pages/welcome-page/welcome-page';
@@ -7,38 +8,38 @@ import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-
 import {AppRoute} from '../../constants';
-import {AuthorizationStatus} from '../../constants';
-import {Offer} from '../../types/offer';
-import {City} from '../../types/city';
-import {Reviews} from '../../types/review';
+import { useAppDispatch, useAppSelector} from '../../hooks';
+import { checkAuthAction} from '../../store/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
+import ErrorPage from '../../pages/error-page/error-page';
+import { ErrorLoading } from '../../store/offers-process/offers-process.selector';
 
-type AppScreenProps = {
-  allCityList: string[];
-  sortTypePlace: string[];
-  offers: Offer[];
-  city: City;
-  reviews: Reviews;
-};
+function App(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const hasError = useAppSelector(ErrorLoading);
+  const dispatch = useAppDispatch();
 
-function App({ allCityList, sortTypePlace, offers, city, reviews }: AppScreenProps): JSX.Element {
+  useEffect(() => {
+    dispatch(checkAuthAction());
+   }, [dispatch]);
+
+if(hasError) {
+  return <ErrorPage/>;
+}
   return (
     <>
     <ScrollToTop/>
     <Routes>
-      <Route path={AppRoute.Main} element={<WelcomePage allCityList={allCityList} sortTypePlace={sortTypePlace}
-       offers={offers} city={city}
-                                           />}
-      />
+      <Route path={AppRoute.Main} element={<WelcomePage/>}/>
       <Route path={AppRoute.Login} element={<LoginPage/>}/>
       <Route path={AppRoute.Favorites} element={
-      <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-        <FavoritesPage offers={offers} />
+      <PrivateRoute authorizationStatus={authorizationStatus}>
+        <FavoritesPage />
       </PrivateRoute>
       }
       />
-      <Route path={AppRoute.Offer} element={<OfferPage offers={offers} reviews={reviews} city={city}/>}/>
+      <Route path={`${AppRoute.Offer}/:id`} element={<OfferPage />}/>
       <Route path={AppRoute.NotFound} element={<NotFoundPage/>}/>
     </Routes>
     </>

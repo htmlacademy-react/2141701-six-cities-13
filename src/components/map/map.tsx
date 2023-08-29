@@ -1,56 +1,48 @@
-import {useRef, useEffect, useState} from 'react';
+import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import useMap from '../../hooks/use-map';
-import {City} from '../../types/city';
-import {Point, Offer} from '../../types/offer';
+import {Offer} from '../../types/offer';
 import{URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../constants';
+import { City } from '../../types/city';
 
 type MapProps = {
-  city: City;
-  offers: Offer[];
   mapClassName: string;
+  currentOffers: Offer[];
+  selectedPoint: Offer | undefined | null;
+  currentCity: City;
 };
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [35, 39],
+  iconAnchor: [13.5, 39]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40]
+  iconSize: [35, 39],
+  iconAnchor: [13.5, 39]
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, mapClassName} = props;
-
-   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-   const [selectedPoint, setSelectedPoint] = useState<Point | undefined>(
-    undefined
-  );
-
-  const points = offers.map(({id, coordinates}) => ({id, coordinates}));
-
-
+  const {mapClassName, currentOffers, selectedPoint, currentCity} = props;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-      points.forEach((point) => {
+      currentOffers?.forEach((point) => {
         const marker = new Marker({
-          lat: point.coordinates.latitude,
-          lng: point.coordinates.longitude
+          lat: point.location.latitude,
+          lng: point.location.longitude,
         });
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint.id
+            selectedPoint && point.id === selectedPoint?.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -61,7 +53,7 @@ function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint]);
+  }, [map, currentOffers, selectedPoint]);
 
   return <section className={`${mapClassName} map`} ref={mapRef}></section>;
 }
