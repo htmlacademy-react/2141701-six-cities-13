@@ -46,15 +46,15 @@ describe('Application Routing', () => {
   });
 
 
-  // it('should render "OfferPage" when user navigate to "/offer/:id"', () => {
-  //   const withHistoryComponent = withHistory(<App/>, mockHistory);
-  //   const {withStoreComponent} = withStore(withHistoryComponent, makeFakeStore());
-  //   mockHistory.push(`${AppRoute.Offer}/:id`);
-  //   makeScrollMock();
-  //   render(withStoreComponent);
+  it('should render "OfferPage" when user navigate to "/offer/:id"', () => {
+    const withHistoryComponent = withHistory(<App/>, mockHistory);
+    const {withStoreComponent} = withStore(withHistoryComponent, makeFakeStore());
+    mockHistory.push(`${AppRoute.Offer}/:id`);
+    makeScrollMock();
+    render(withStoreComponent);
 
-  //   expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
-  // });
+    expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
+  });
 
   it('should render "NotFoundScreen" when user navigate to non-existent route', () => {
     const withHistoryComponent = withHistory(<App/>, mockHistory);

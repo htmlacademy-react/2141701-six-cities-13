@@ -77,7 +77,7 @@ export const makeFakeComment = (): Comment => ({
 export const makeFakeReviews = (): Review[] => Array.from({ length: 3 }, makeFakeReview);
 
 export const makeFakeStore = (initialState?: Partial<RootState>): RootState => ({
-  USER: { authorizationStatus: AuthorizationStatus.NoAuth, email: ''},
+  USER: { authorizationStatus: AuthorizationStatus.NoAuth },
   OFFER: {offer: null, isLoadingData: false},
   OFFERS: { currentCity: CITIES[0], currentTaskSort: SORT_TYPE_PLACE[0], offers: [], taskSort: SORT_TYPE_PLACE, isLoadingData: false, hasError: false},
   OFFER_NEARBY: {isLoadingData: false, offersNearby: []},

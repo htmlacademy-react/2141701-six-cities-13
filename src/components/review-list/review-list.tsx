@@ -8,13 +8,14 @@ type ReviewListProps = {
 };
 
 function ReviewList({reviews, children}: ReviewListProps) {
- const sortReviews = sortedReviews(reviews);
- const reviewsForRender = updatedReviews(sortReviews);
+ const sortRe = sortedReviews(reviews);
+
+ const reviewsForRender = updatedReviews(sortRe);
 
   return (
     <section className="offer__reviews reviews">
     <h2 className="reviews__title">
-      Reviews · <span className="reviews__amount">{reviews.length}</span>
+      Reviews · <span className="reviews__amount">{reviewsForRender.length}</span>
     </h2>
     <ul className="reviews__list">
     <ReviewItem reviews={reviewsForRender}/>

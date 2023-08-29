@@ -1,6 +1,6 @@
 import {ChangeEvent, useState, useEffect} from 'react';
 import {fetchPostReview} from '../../store/api-actions';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import {ratingTitles} from '../../constants';
 
 type FormProps = {
@@ -15,12 +15,12 @@ function Form({offerId}: FormProps) {
 
 const [buttonDisable, setButtonDisabled] = useState(true);
 const[formData, setFormData] = useState(initialState);
-const isSending = useAppSelector((state) => state.COMMENTS.isLoadingData);
+
 const dispatch = useAppDispatch();
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
-    setFormData({...formData, [name]: name === 'rating' ? window.parseInt(value) : value });
+    setFormData({...formData, [name]: value});
   };
 
   const formDataCheckLength = formData.review.length >= 50 && formData.review.length < 300;
@@ -31,9 +31,9 @@ const dispatch = useAppDispatch();
     dispatch(fetchPostReview({
       id: offerId,
       rating: Number(formData.rating),
-      comment: formData.review,
-      onSuccess: () => setFormData(initialState)
+      comment: formData.review
     }));
+    setFormData(initialState);
   };
 
 
@@ -60,15 +60,13 @@ const dispatch = useAppDispatch();
               value={ratingValue}
               id={`${ratingValue}-stars`}
               type="radio"
-              checked={formData.rating === ratingValue}
-              disabled={isSending}
             />
             <label
               htmlFor={`${ratingValue}-stars`}
               className="reviews__rating-label form__rating-label"
               title={ratingTitles[ratingValue as keyof typeof ratingTitles]}
             >
-              <svg className="form__star-image" width={37} height={33} style={ratingValue < formData.rating ? { fill: '#ff9000' } : undefined}>
+              <svg className="form__star-image" width={37} height={33}>
                 <use xlinkHref="#icon-star" />
               </svg>
             </label>
