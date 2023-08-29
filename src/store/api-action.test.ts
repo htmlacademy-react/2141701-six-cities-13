@@ -10,7 +10,6 @@ import { AppThunkDispatch, extractActionsTypes } from '../utils/mocks';
 import { createApi } from './../services/api';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
-import { redirectToRoute } from './action';
 import * as tokenStorage from '../services/token';
 
 describe('Async actions', () => {
