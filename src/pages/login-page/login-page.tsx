@@ -5,35 +5,49 @@ import {useEffect} from 'react';
 
 import Header from '../../components/header/header';
 import {loginAction} from '../../store/api-actions';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute, getRandomItem, CITIES} from '../../constants';
 import {changeCity} from '../../store/offers-process/offers-process.slice';
+import { Navigate } from 'react-router-dom';
+import { isPasswordValid } from '../../utils/isPasswordValid';
+import { getEmailSelector } from '../../store/user-process/user-process.selector';
+
+const initialState = {
+  email: '',
+  password: ''
+ };
 
 function LoginPage(): JSX.Element {
   const currenCity = getRandomItem(CITIES);
   const dispatch = useAppDispatch();
+  const email = useAppSelector(getEmailSelector);
+  const [error, setError] = useState(false);
 
- const [valueForm, setValueForm] = useState({
-  email: '',
-  password: ''
- });
+ const [valueForm, setValueForm] = useState(initialState);
 
- const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>)=> {
-  const {name, value} = evt.target;
-  setValueForm({...valueForm, [name]: value});
-};
+  const handleFieldChange = (evt: ChangeEvent<HTMLInputElement>)=> {
+    const {name, value} = evt.target;
+    setError(false);
+    setValueForm({...valueForm, [name]: value});
+  };
 
-const handlerSubmit = (evt: FormEvent) => {
-  evt.preventDefault();
+  const handlerSubmit = (evt: FormEvent) => {
+    evt.preventDefault();
 
-  if(valueForm.email && valueForm.password){
-    dispatch(loginAction(valueForm));
+    if(isPasswordValid(valueForm.password) && valueForm.email) {
+      dispatch(loginAction(valueForm));
+    } else {
+      setError(true);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(changeCity(currenCity));
+  }, []);
+
+  if (email) {
+    return <Navigate to={AppRoute.Main} />;
   }
-};
-
-useEffect(() => {
-  dispatch(changeCity(currenCity));
-}, []);
 
   return (
     <div className="page page--gray page--login">
@@ -49,7 +63,7 @@ useEffect(() => {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
-                 onChange={handleFieldChange}
+                  onChange={handleFieldChange}
                   className="login__input form__input"
                   type="email"
                   name="email"
@@ -61,7 +75,7 @@ useEffect(() => {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
-                onChange={handleFieldChange}
+                  onChange={handleFieldChange}
                   className="login__input form__input"
                   type="password"
                   name="password"
@@ -69,6 +83,7 @@ useEffect(() => {
                   required
                   value={valueForm.password}
                 />
+                {error && <span>Пароль должен содержать минимум цифру и букву</span>}
               </div>
               <button className="login__submit form__submit button" type="submit">
               Sign in

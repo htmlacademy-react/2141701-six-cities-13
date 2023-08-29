@@ -10,7 +10,7 @@ import { City } from '../../types/city';
 type MapProps = {
   mapClassName: string;
   currentOffers: Offer[];
-  selectedPoint: Offer | undefined;
+  selectedPoint: Offer | undefined | null;
   currentCity: City;
 };
 
@@ -28,16 +28,13 @@ const currentCustomIcon = new Icon({
 
 function Map(props: MapProps): JSX.Element {
   const {mapClassName, currentOffers, selectedPoint, currentCity} = props;
-
-  const points = currentOffers.map(({id, location}) => ({id, location}));
-
   const mapRef = useRef(null);
   const map = useMap(mapRef, currentCity);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
-      points.forEach((point) => {
+      currentOffers?.forEach((point) => {
         const marker = new Marker({
           lat: point.location.latitude,
           lng: point.location.longitude,
@@ -45,7 +42,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.id === selectedPoint.id
+            selectedPoint && point.id === selectedPoint?.id
               ? currentCustomIcon
               : defaultCustomIcon
           )
@@ -56,7 +53,7 @@ function Map(props: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, points, selectedPoint]);
+  }, [map, currentOffers, selectedPoint]);
 
   return <section className={`${mapClassName} map`} ref={mapRef}></section>;
 }
