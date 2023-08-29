@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom';
 
 import {AppRoute} from '../../constants';
-import {logoutAction, } from '../../store/api-actions';
+import {fetchFavorites, logoutAction, } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {getUserEmail} from '../../store/user-process/user-process.selector';
 import { getFavoritesData } from '../../store/favorites-process/favorites-process.selector';
+import { useEffect } from 'react';
+import { getUserEmail } from '../../services/userEmail';
 
 function SignOut() {
 const dispatch = useAppDispatch();
 const favoriteOffers = useAppSelector(getFavoritesData);
-const userEmail = useAppSelector(getUserEmail);
+const userEmail = getUserEmail();
+
+useEffect(()=> {
+dispatch(fetchFavorites());
+}, [dispatch]);
 
   const handlerSignOut = () => {
     dispatch(logoutAction());
   };
+
   return (
     <>
       <li className="header__nav-item user">

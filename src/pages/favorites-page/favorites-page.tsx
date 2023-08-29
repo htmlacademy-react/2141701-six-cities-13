@@ -1,30 +1,27 @@
 import { Helmet } from 'react-helmet-async';
+import {useEffect} from 'react';
+import { Link } from 'react-router-dom';
 
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
 import Header from '../../components/header/header';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Footer from '../../components/footer/footer';
 import FavoriteItem from '../../components/favorite-item/favorite-item';
-import { getFavoritesData, LoadingData } from '../../store/favorites-process/favorites-process.selector';
+import { getFavoritesData} from '../../store/favorites-process/favorites-process.selector';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
-import Preloader from '../../components/preloader/preloader';
+import { fetchFavorites } from '../../store/api-actions';
 
 function FavoritesPage() {
-  const favoritesOffer = useAppSelector(getFavoritesData);
-  const isDataLoadingFavorites = useAppSelector(LoadingData);
+  const favoritesOffers = useAppSelector(getFavoritesData);
+  const dispatch = useAppDispatch();
+  const citiesFavoriteOffers = new Set(favoritesOffers?.map((offer) => offer.city.name));
 
-  if(isDataLoadingFavorites) {
-   return <Preloader/>;
-  }
-
-  // const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(fetchFavorites());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
 
   return (
-    favoritesOffer.length ? (
+    favoritesOffers.length ? (
       <div className="page">
       <Helmet>
       <title>6 cities: favorites</title>
@@ -37,7 +34,21 @@ function FavoritesPage() {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {favoritesOffer.map((offer) => <FavoriteItem key={offer.id} offer={offer}/>)}
+            {Array.from(citiesFavoriteOffers).map((city) =>(
+              <li className="favorites__locations-items" key={city}>
+                <div className="favorites__locations locations locations--current">
+                  <div className="locations__item">
+                    <Link className="locations__item-link" to={`/${city}`}>
+                      <span>{city}</span>
+                    </Link>
+                  </div>
+                </div>
+                <div className="favorites__places">
+                  {favoritesOffers.map((offer) =>city === offer.city.name ? <FavoriteItem key={offer.id} offer={offer}/> : '')}
+                </div>
+              </li>
+            )
+            )}
             </ul>
           </section>
         </div>
