@@ -17,6 +17,7 @@ type InitialState = {
   userEmail: string | null;
   favorites: Offer[];
   hasError: boolean;
+  email: string | null;
 };
 
 export type FavoritesInitialState = Pick<InitialState, 'favorites' | 'isLoadingData'>;
@@ -24,6 +25,6 @@ export type OfferInitialState = Pick<InitialState, 'offer' | 'isLoadingData'>;
 export type OffersNearbyInitialState = Pick<InitialState, 'offersNearby' | 'isLoadingData'>;
 export type OffersInitialState = Pick<InitialState, 'currentCity' | 'isLoadingData' | 'currentTaskSort' | 'offers' | 'taskSort' | 'hasError'>;
 export type ReviewsInitialState = Pick<InitialState, 'reviews' | 'isLoadingData'>;
-export type UserInitialState = Pick<InitialState, 'authorizationStatus'>;
+export type UserInitialState = Pick<InitialState, 'authorizationStatus' | 'email'>;
 
 

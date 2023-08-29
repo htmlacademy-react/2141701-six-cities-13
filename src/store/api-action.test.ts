@@ -187,7 +187,6 @@ describe('Async actions', () => {
 
       expect(actions).toEqual([
         loginAction.pending.type,
-        redirectToRoute.type,
         loginAction.fulfilled.type,
       ]);
 

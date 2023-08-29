@@ -9,10 +9,10 @@ import CardList from '../../components/card-list/card-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import {fetchOfferData, fetchOffersNearby, fetchReviewsData} from '../../store/api-actions';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
-import { AuthorizationStatus, capitalize } from '../../constants';
+import { AuthorizationStatus, capitalize, getRandomObjects } from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
 import {ButtonSettingOfferItem} from '../../constants';
 import {getCurrentOffer, LoadingData} from '../../store/offer-process/offer-process.select';
@@ -23,8 +23,6 @@ import {getCurrentReviews} from '../../store/review-process/review-process.selec
 
 
 function OfferPage(): JSX.Element {
-  const [currentOffer, setCurrentOffer] = useState<Offer | undefined>(undefined);
-
 const offer = useAppSelector(getCurrentOffer);
 const currentOffers = useAppSelector(getOffersNearby);
 const currentSortTask = useAppSelector(getCurrentSortTask);
@@ -33,13 +31,11 @@ const authorizationStatus = useAppSelector(getAuthorizationStatus);
 const reviews = useAppSelector(getCurrentReviews);
 const isLoadingData = useAppSelector(LoadingData);
 
+const randomArrayElements = getRandomObjects(currentOffers);
+const currentArray = [...randomArrayElements, offer] as Offer[];
+
 const dispatch = useAppDispatch();
 const {id} = useParams();
-
-const onHoverCurrentCard = (offerId: string) => {
-  const card = currentOffers.find((item) => item.id === offerId);
-  setCurrentOffer(card);
-};
 
 
 useEffect(() => {
@@ -139,7 +135,7 @@ if (isLoadingData) {
               </ReviewList >
             </div>
           </div>
-          <Map currentOffers={currentOffers} selectedPoint={currentOffer} currentCity={currentCity} mapClassName={'offer__map'} />
+          <Map currentOffers={currentArray} selectedPoint={offer} currentCity={currentCity} mapClassName={'offer__map'} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -147,9 +143,7 @@ if (isLoadingData) {
           Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-             <CardList currentOffers={currentOffers} onHoverCurrentCard={onHoverCurrentCard}
-              currentSortTask={currentSortTask} cardNameClass={'near-places'}
-             />
+             <CardList currentOffers={randomArrayElements} currentSortTask={currentSortTask} cardNameClass={'near-places'} />
             </div>
           </section>
         </div>

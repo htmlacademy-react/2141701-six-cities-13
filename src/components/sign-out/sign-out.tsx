@@ -5,12 +5,12 @@ import {fetchFavorites, logoutAction, } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFavoritesData } from '../../store/favorites-process/favorites-process.selector';
 import { useEffect } from 'react';
-import { getUserEmail } from '../../services/userEmail';
+import { getEmailSelector } from '../../store/user-process/user-process.selector';
 
 function SignOut() {
 const dispatch = useAppDispatch();
 const favoriteOffers = useAppSelector(getFavoritesData);
-const userEmail = getUserEmail();
+const userEmail = useAppSelector(getEmailSelector);
 
 useEffect(()=> {
 dispatch(fetchFavorites());
@@ -44,3 +44,4 @@ dispatch(fetchFavorites());
 }
 
 export default SignOut;
+
