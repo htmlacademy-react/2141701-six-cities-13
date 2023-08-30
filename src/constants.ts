@@ -4,16 +4,6 @@ import { BtnBookMarkSetting } from './types/bookmark-btn';
 import {City} from './types/city';
 import { Offer } from './types/offer';
 import { Review } from './types/review';
-export const DEFAULT_SORT = 'Popular';
-
-export const ALL_CITY_LIST = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf',
-];
 
 export const SORT_TYPE_PLACE = [
   'Popular',
@@ -47,10 +37,15 @@ export enum APIRoute {
 export const makeScrollMock = window.scrollTo = () => {};
 
 export const URL_MARKER_DEFAULT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
+'img/pin.svg';
 
 export const URL_MARKER_CURRENT =
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+'img/pin-active.svg';
+
+export enum ReviewLength {
+  Min = 50,
+  Max = 300
+}
 
   export const CITIES: City[] = [
     {
@@ -200,4 +195,36 @@ export function getRandomObjects<T>(array: T[]): T[] {
     [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
   return shuffledArray.slice(0, 3);
+}
+
+export function modifyOffers(offers: Offer[]): Offer[] {
+  const modifiedOffers = offers.map((offer) => {
+      if (offer.type === 'room') {
+          return { ...offer, type: 'Private Room'};
+      }
+      return offer;
+  });
+  return modifiedOffers;
+}
+
+export function modifyOffer(offer: Offer | null): Offer | null {
+  if (offer?.type === 'room') {
+      return { ...offer, type: 'Private Room' };
+  }
+  return offer;
+}
+
+export function convertRating(rating: number): string {
+ return `${Math.round(rating) * 100 / 5}%`;
+}
+
+
+export function getImages(offer: Offer | null): string[] | null {
+  let arr: string[] | null = null;
+
+  if (offer?.images) {
+      arr = offer.images.slice(0, 6);
+  }
+
+  return arr;
 }

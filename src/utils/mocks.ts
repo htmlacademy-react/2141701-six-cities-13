@@ -4,7 +4,6 @@ import { Offer } from '../types/offer';
 import { User } from '../types/review';
 import { City, Location } from '../types/city';
 import { Review } from '../types/review';
-import { Comment } from '../types/review';
 import { AuthorizationStatus } from '../constants';
 import { createApi } from '../services/api';
 import { ThunkDispatch } from '@reduxjs/toolkit';
@@ -66,12 +65,6 @@ export const makeFakeReview = (): Review => ({
   rating: datatype.number(5),
   comment: lorem.sentence(),
   date: String(date.recent()),
-});
-
-export const makeFakeComment = (): Comment => ({
-  id: datatype.string(),
-  rating: datatype.number(5),
-  comment: lorem.sentence(),
 });
 
 export const makeFakeReviews = (): Review[] => Array.from({ length: 3 }, makeFakeReview);

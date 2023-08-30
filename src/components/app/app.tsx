@@ -12,21 +12,15 @@ import {AppRoute} from '../../constants';
 import { useAppDispatch, useAppSelector} from '../../hooks';
 import { checkAuthAction} from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
-import ErrorPage from '../../pages/error-page/error-page';
-import { ErrorLoading } from '../../store/offers-process/offers-process.selector';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const hasError = useAppSelector(ErrorLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkAuthAction());
    }, [dispatch]);
 
-if(hasError) {
-  return <ErrorPage/>;
-}
   return (
     <>
     <ScrollToTop/>

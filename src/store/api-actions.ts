@@ -1,10 +1,11 @@
+import { redirectToRoute } from './action';
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
 import { AppDispatch, RootState } from '../types/state';
 import {saveToken, dropToken} from '../services/token';
 import {saveUserEmail, deleteUserEmail} from '../services/userEmail';
-import {APIRoute} from '../constants';
+import {APIRoute, AppRoute} from '../constants';
 import {UserData} from '../types/user-data';
 import {AuthData} from '../types/auth-data';
 import {Offer} from '../types/offer';
@@ -65,16 +66,20 @@ export const fetchOffersData = createAsyncThunk<Offer[], undefined, {
   },
 );
 
-export const fetchOfferData = createAsyncThunk<Offer, string, {
+export const fetchOfferData = createAsyncThunk<Offer | undefined, string, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
 }
 >(
   'data/getOfferData',
-  async (id, {extra: api}) => {
+  async (id, {dispatch, extra: api}) => {
+    try{
       const {data} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
      return data;
+    }catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   },
 );
 

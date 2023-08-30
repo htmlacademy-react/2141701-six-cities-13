@@ -32,8 +32,4 @@ images: string[];
 maxAdults: number;
 };
 
-export type OfferItem = Omit<Offer, 'description' | 'bedrooms' | 'goods' | 'host' | 'name' | 'avatarUrl' | 'isPro' | 'images' | 'maxAdults'>
-
-
-export type Offers = Offer[];
 

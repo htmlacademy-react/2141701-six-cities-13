@@ -1,6 +1,6 @@
 import {Offer} from '../../types/offer';
 import { Link } from 'react-router-dom';
-import { AppRoute, capitalize } from '../../constants';
+import { AppRoute, capitalize, convertRating } from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
 import {ButtonSettingPlaceCard} from '../../constants';
 
@@ -12,7 +12,7 @@ type CardPlaceProps = {
 
 function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
   const {id, title, previewImage, price, type, isPremium, rating} = offer;
-
+  
   return (
     <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=> onHoverCurrentCard && onHoverCurrentCard(id)}
      onMouseLeave={()=>onHoverCurrentCard && onHoverCurrentCard('')}
@@ -41,7 +41,7 @@ function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): 
   </div>
   <div className="place-card__rating rating">
     <div className="place-card__stars rating__stars">
-      <span style={{ width: `${rating * 100 / 5}%` }} />
+      <span style={ {width: convertRating(rating)}}/>
       <span className="visually-hidden">Rating</span>
     </div>
   </div>

@@ -2,10 +2,12 @@ import Header from '../../components/header/header';
 import HeaderNavigation from '../../components/header-navigation/header-navigation';
 import {useAppSelector} from '../../hooks/index';
 import CityList from '../../components/city-list/city-list';
-import {getCurrentCity} from '../../store/offers-process/offers-process.selector';
+import {getCurrentCity, setErrorLoading} from '../../store/offers-process/offers-process.selector';
+import ErrorButton from '../../components/error-button/error-button';
 
 function MainEmptyPage() {
   const currentCity = useAppSelector(getCurrentCity);
+  const hasError = useAppSelector(setErrorLoading);
 
   return (
     <div className="page page--gray page--main">
@@ -25,6 +27,7 @@ function MainEmptyPage() {
               <p className="cities__status-description">
                 We could not find any property available at the moment in {currentCity.name}
               </p>
+              {hasError && <ErrorButton/>}
             </div>
           </section>
           <div className="cities__right-section" />

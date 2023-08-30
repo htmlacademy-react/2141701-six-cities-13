@@ -10,9 +10,11 @@ import FavoriteItem from '../../components/favorite-item/favorite-item';
 import { getFavoritesData} from '../../store/favorites-process/favorites-process.selector';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import { fetchFavorites } from '../../store/api-actions';
+import { modifyOffers } from '../../constants';
 
 function FavoritesPage() {
-  const favoritesOffers = useAppSelector(getFavoritesData);
+  const getFavoritesOffers = useAppSelector(getFavoritesData);
+  const favoritesOffers = modifyOffers(getFavoritesOffers);
   const dispatch = useAppDispatch();
   const citiesFavoriteOffers = new Set(favoritesOffers?.map((offer) => offer.city.name));
 

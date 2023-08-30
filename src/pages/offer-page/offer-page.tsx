@@ -9,13 +9,13 @@ import CardList from '../../components/card-list/card-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import {fetchOfferData, fetchOffersNearby, fetchReviewsData} from '../../store/api-actions';
-import { useEffect} from 'react';
+import { useEffect, useState} from 'react';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
-import { AuthorizationStatus, capitalize, getRandomObjects } from '../../constants';
+import { AuthorizationStatus, capitalize, getRandomObjects, modifyOffer, convertRating} from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
-import {ButtonSettingOfferItem} from '../../constants';
-import {getCurrentOffer, LoadingData} from '../../store/offer-process/offer-process.select';
+import {ButtonSettingOfferItem, getImages} from '../../constants';
+import {getCurrentOffer, setLoadingData} from '../../store/offer-process/offer-process.select';
 import {getOffersNearby} from '../../store/offers-nearby-process/offers-nearby-process.selector';
 import {getCurrentSortTask, getCurrentCity} from '../../store/offers-process/offers-process.selector';
 import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
@@ -23,20 +23,20 @@ import {getCurrentReviews} from '../../store/review-process/review-process.selec
 
 
 function OfferPage(): JSX.Element {
-const offer = useAppSelector(getCurrentOffer);
+  const [randomArrayElements, setRandomArrayElements] = useState<Offer[]>([]);
+
+const currentOffer = useAppSelector(getCurrentOffer);
 const currentOffers = useAppSelector(getOffersNearby);
 const currentSortTask = useAppSelector(getCurrentSortTask);
 const currentCity = useAppSelector(getCurrentCity);
 const authorizationStatus = useAppSelector(getAuthorizationStatus);
 const reviews = useAppSelector(getCurrentReviews);
-const isLoadingData = useAppSelector(LoadingData);
-
-const randomArrayElements = getRandomObjects(currentOffers);
+const isLoadingData = useAppSelector(setLoadingData);
+const offer = modifyOffer(currentOffer);
 const currentArray = [...randomArrayElements, offer] as Offer[];
-
 const dispatch = useAppDispatch();
 const {id} = useParams();
-
+const images = getImages(offer);
 
 useEffect(() => {
   if(id) {
@@ -45,6 +45,13 @@ useEffect(() => {
   dispatch(fetchReviewsData(id));
   }
 }, [id, dispatch]);
+
+useEffect(() => {
+  if (currentOffers.length > 0) {
+      const newRandomArray = getRandomObjects(currentOffers);
+      setRandomArrayElements(newRandomArray);
+  }
+}, [currentOffers]);
 
 if (isLoadingData) {
   return <Preloader/>;
@@ -62,7 +69,7 @@ if (isLoadingData) {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer?.images.map((item) => (<div key={item} className="offer__image-wrapper">
+              {images?.map((item) => (<div key={item} className="offer__image-wrapper">
                 <img
                   className="offer__image"
                   src={item}
@@ -85,7 +92,7 @@ if (isLoadingData) {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${offer?.rating * 100 / 5}%` }} />
+                  <span style={{ width: convertRating(offer?.rating) }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer?.rating}</span>

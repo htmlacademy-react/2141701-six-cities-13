@@ -17,9 +17,11 @@ export const reviewProcess = createSlice({
     builder
     .addCase(fetchReviewsData.fulfilled, (state, action) => {
       state.reviews = action.payload;
+      state.isLoadingData = false;
     })
     .addCase(fetchReviewsData.rejected, (state) => {
       state.reviews = [];
+      state.isLoadingData = false;
     })
     .addCase(fetchPostReview.pending, (state) => {
       state.isLoadingData = true;

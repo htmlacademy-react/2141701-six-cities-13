@@ -1,7 +1,8 @@
 import {ChangeEvent, useState, useEffect} from 'react';
 import {fetchPostReview} from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {ratingTitles} from '../../constants';
+import {ratingTitles, ReviewLength} from '../../constants';
+import { setLoadingData } from '../../store/review-process/review-process.selector';
 
 type FormProps = {
   offerId: string | undefined;
@@ -13,17 +14,19 @@ function Form({offerId}: FormProps) {
     review: '',
   };
 
+
 const [buttonDisable, setButtonDisabled] = useState(true);
 const[formData, setFormData] = useState(initialState);
-const isSending = useAppSelector((state) => state.COMMENTS.isLoadingData);
+const isSending = useAppSelector(setLoadingData);
 const dispatch = useAppDispatch();
+
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
     setFormData({...formData, [name]: name === 'rating' ? window.parseInt(value) : value });
   };
 
-  const formDataCheckLength = formData.review.length >= 50 && formData.review.length < 300;
+  const formDataCheckLength = formData.review.length >= ReviewLength.Min && formData.review.length < ReviewLength.Max;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

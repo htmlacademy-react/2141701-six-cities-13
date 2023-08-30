@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { AppRoute } from '../../constants';
+import { AppRoute, capitalize } from '../../constants';
 import { Offer } from '../../types/offer';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
-import {ButtonSettingPlaceCard} from '../../constants';
+import {ButtonSettingPlaceCard, convertRating} from '../../constants';
 
 
 type FavoriteItemProps = {
@@ -11,7 +11,6 @@ type FavoriteItemProps = {
 }
 
 function FavoriteItem({offer}:FavoriteItemProps) {
-
   return (
 
                    <article className="favorites__card place-card">
@@ -41,14 +40,14 @@ function FavoriteItem({offer}:FavoriteItemProps) {
                        </div>
                        <div className="place-card__rating rating">
                          <div className="place-card__stars rating__stars">
-                           <span style={{ width: `${offer.rating * 100 / 5}%` }} />
+                           <span style={ {width: convertRating(offer.rating)}} />
                            <span className="visually-hidden">{offer.rating}</span>
                          </div>
                        </div>
                        <h2 className="place-card__name">
                          <Link to={`${AppRoute.Offer}/${offer.id}`}>{offer.title}</Link>
                        </h2>
-                       <p className="place-card__type">{offer.type}</p>
+                       <p className="place-card__type">{capitalize(offer.type)}</p>
                      </div>
                    </article>
   );

@@ -13,6 +13,7 @@ type ButtonBookmarkProps ={
 }
 
 function ButtonBookmark({ buttonSetting, offer}: ButtonBookmarkProps) {
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
  const isLoggedIn = useAppSelector(getAuthorizationStatus);
