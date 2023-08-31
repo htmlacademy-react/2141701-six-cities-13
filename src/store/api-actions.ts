@@ -1,10 +1,11 @@
+import { redirectToRoute } from './action';
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
 import { AppDispatch, RootState } from '../types/state';
 import {saveToken, dropToken} from '../services/token';
 import {saveUserEmail, deleteUserEmail} from '../services/userEmail';
-import {APIRoute} from '../constants';
+import {APIRoute, AppRoute} from '../constants';
 import {UserData} from '../types/user-data';
 import {AuthData} from '../types/auth-data';
 import {Offer} from '../types/offer';
@@ -45,10 +46,11 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }
 >(
   'user/logout',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
     deleteUserEmail();
+    dispatch(redirectToRoute(AppRoute.Login));
   },
 );
 
@@ -65,16 +67,20 @@ export const fetchOffersData = createAsyncThunk<Offer[], undefined, {
   },
 );
 
-export const fetchOfferData = createAsyncThunk<Offer, string, {
+export const fetchOfferData = createAsyncThunk<Offer | undefined, string, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
 }
 >(
   'data/getOfferData',
-  async (id, {extra: api}) => {
+  async (id, {dispatch, extra: api}) => {
+    try{
       const {data} = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
      return data;
+    }catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   },
 );
 
@@ -135,7 +141,7 @@ export const fetchFavorites = createAsyncThunk<Offer[], undefined, {
   },
 );
 
-export const fetchFavoritesAction = createAsyncThunk<Offer | null, {status: string; id: string | undefined}, {
+export const fetchFavoritesAction = createAsyncThunk<Offer, {status: string; id: string}, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
@@ -143,11 +149,8 @@ export const fetchFavoritesAction = createAsyncThunk<Offer | null, {status: stri
 >(
   'data/postFavorite',
   async ({status, id}, {extra: api}) => {
-    if(id) {
       const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${status}`);
     return data;
-    }else {
-      return null;
-    }
+
   },
 );

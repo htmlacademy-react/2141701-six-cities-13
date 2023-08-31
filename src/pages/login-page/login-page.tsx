@@ -18,10 +18,10 @@ const initialState = {
  };
 
 function LoginPage(): JSX.Element {
-  const currenCity = getRandomItem(CITIES);
   const dispatch = useAppDispatch();
   const email = useAppSelector(getEmailSelector);
   const [error, setError] = useState(false);
+  const [cityName, setCityName] = useState('');
 
  const [valueForm, setValueForm] = useState(initialState);
 
@@ -42,7 +42,9 @@ function LoginPage(): JSX.Element {
   };
 
   useEffect(() => {
-    dispatch(changeCity(currenCity));
+    const currentCity = getRandomItem(CITIES);
+    setCityName(currentCity.name);
+    dispatch(changeCity(currentCity));
   }, []);
 
   if (email) {
@@ -93,7 +95,7 @@ function LoginPage(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <Link className="locations__item-link" to={AppRoute.Main}>
-                <span>{currenCity.name}</span>
+                <span>{cityName}</span>
               </Link>
             </div>
           </section>

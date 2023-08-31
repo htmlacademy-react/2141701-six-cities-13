@@ -4,7 +4,6 @@ import { Offer } from '../types/offer';
 import { User } from '../types/review';
 import { City, Location } from '../types/city';
 import { Review } from '../types/review';
-import { Comment } from '../types/review';
 import { AuthorizationStatus } from '../constants';
 import { createApi } from '../services/api';
 import { ThunkDispatch } from '@reduxjs/toolkit';
@@ -68,20 +67,14 @@ export const makeFakeReview = (): Review => ({
   date: String(date.recent()),
 });
 
-export const makeFakeComment = (): Comment => ({
-  id: datatype.string(),
-  rating: datatype.number(5),
-  comment: lorem.sentence(),
-});
-
 export const makeFakeReviews = (): Review[] => Array.from({ length: 3 }, makeFakeReview);
 
 export const makeFakeStore = (initialState?: Partial<RootState>): RootState => ({
   USER: { authorizationStatus: AuthorizationStatus.NoAuth, email: ''},
-  OFFER: {offer: null, isLoadingData: false},
+  OFFER: {offer: undefined, isLoadingData: false},
   OFFERS: { currentCity: CITIES[0], currentTaskSort: SORT_TYPE_PLACE[0], offers: [], taskSort: SORT_TYPE_PLACE, isLoadingData: false, hasError: false},
-  OFFER_NEARBY: {isLoadingData: false, offersNearby: []},
+  OFFER_NEARBY: {offersNearby: []},
   COMMENTS: {reviews: [], isLoadingData: false},
-  FAVORITES: { favorites: [], isLoadingData: false},
+  FAVORITES: { favorites: []},
   ...initialState ?? {},
 });

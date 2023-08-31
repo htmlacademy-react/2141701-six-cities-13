@@ -9,33 +9,33 @@ import CardList from '../../components/card-list/card-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import {fetchOfferData, fetchOffersNearby, fetchReviewsData} from '../../store/api-actions';
-import { useEffect} from 'react';
+import { useEffect, useMemo} from 'react';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
-import { AuthorizationStatus, capitalize, getRandomObjects } from '../../constants';
+import { AuthorizationStatus, capitalize, modifyOffer, convertRating, randomCutIndexArr} from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
-import {ButtonSettingOfferItem} from '../../constants';
-import {getCurrentOffer, LoadingData} from '../../store/offer-process/offer-process.select';
+import {ButtonSettingOfferItem, getImages} from '../../constants';
+import {getCurrentOffer, setLoadingData} from '../../store/offer-process/offer-process.select';
 import {getOffersNearby} from '../../store/offers-nearby-process/offers-nearby-process.selector';
 import {getCurrentSortTask, getCurrentCity} from '../../store/offers-process/offers-process.selector';
 import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
 import {getCurrentReviews} from '../../store/review-process/review-process.selector';
 
-
 function OfferPage(): JSX.Element {
-const offer = useAppSelector(getCurrentOffer);
+const currentOffer = useAppSelector(getCurrentOffer);
 const currentOffers = useAppSelector(getOffersNearby);
 const currentSortTask = useAppSelector(getCurrentSortTask);
 const currentCity = useAppSelector(getCurrentCity);
 const authorizationStatus = useAppSelector(getAuthorizationStatus);
 const reviews = useAppSelector(getCurrentReviews);
-const isLoadingData = useAppSelector(LoadingData);
-
-const randomArrayElements = getRandomObjects(currentOffers);
-const currentArray = [...randomArrayElements, offer] as Offer[];
-
+const isLoadingData = useAppSelector(setLoadingData);
+const offer = modifyOffer(currentOffer);
 const dispatch = useAppDispatch();
 const {id} = useParams();
+const images = getImages(offer);
+const number = useMemo(() => randomCutIndexArr(currentOffers), []);
+const arrayNearby = currentOffers.slice(number[0], number[1]);
+const arrayForMap = [...arrayNearby, offer] as Offer[];
 
 
 useEffect(() => {
@@ -62,13 +62,13 @@ if (isLoadingData) {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offer?.images.map((item) => (<div key={item} className="offer__image-wrapper">
+              {images?.map((item) => (<div key={item} className="offer__image-wrapper">
                 <img
                   className="offer__image"
                   src={item}
                   alt="Photo studio"
                 />
-                                            </div>))}
+                                      </div>))}
             </div>
           </div>
           <div className="offer__container container">
@@ -85,7 +85,7 @@ if (isLoadingData) {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${offer?.rating * 100 / 5}%` }} />
+                  <span style={{ width: convertRating(offer?.rating) }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer?.rating}</span>
@@ -135,7 +135,7 @@ if (isLoadingData) {
               </ReviewList >
             </div>
           </div>
-          <Map currentOffers={currentArray} selectedPoint={offer} currentCity={currentCity} mapClassName={'offer__map'} />
+          <Map currentOffers={arrayForMap} selectedPoint={offer} currentCity={currentCity} mapClassName={'offer__map'} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -143,7 +143,7 @@ if (isLoadingData) {
           Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-             <CardList currentOffers={randomArrayElements} currentSortTask={currentSortTask} cardNameClass={'near-places'} />
+             <CardList currentOffers={arrayNearby} currentSortTask={currentSortTask} cardNameClass={'near-places'} />
             </div>
           </section>
         </div>

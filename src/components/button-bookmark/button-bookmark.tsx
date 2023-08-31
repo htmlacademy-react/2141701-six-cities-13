@@ -5,7 +5,7 @@ import {BtnBookMarkSetting} from '../../types/bookmark-btn';
 import { Offer } from '../../types/offer';
 import {fetchFavoritesAction} from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/user-process.selector';
-import { AppRoute, AuthorizationStatus } from '../../constants';
+import { AppRoute, AuthorizationStatus, setStatus } from '../../constants';
 
 type ButtonBookmarkProps ={
   offer: Offer | null;
@@ -13,6 +13,7 @@ type ButtonBookmarkProps ={
 }
 
 function ButtonBookmark({ buttonSetting, offer}: ButtonBookmarkProps) {
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
  const isLoggedIn = useAppSelector(getAuthorizationStatus);
@@ -20,7 +21,7 @@ const AuthStatus = isLoggedIn === AuthorizationStatus.Auth;
 
   const handleChangeFavoriteBtn = () => {
     if (AuthStatus) {
-      const newStatus = offer?.isFavorite ? '0' : '1';
+      const newStatus = offer?.isFavorite ? setStatus.false : setStatus.true;
       const fetchActionPayload = { id: offer?.id, status: newStatus };
       dispatch(fetchFavoritesAction(fetchActionPayload));
     } else {

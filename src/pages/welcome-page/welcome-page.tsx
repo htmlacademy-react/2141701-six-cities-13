@@ -10,9 +10,9 @@ import CityList from '../../components/city-list/city-list';
 import SortedItems from '../../components/sorted-items/sorted-items';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
-import {LoadingData, getAllSortTask, getCurrentSortTask, getAllOffers, getCurrentCity} from '../../store/offers-process/offers-process.selector';
+import {setLoadingData, getAllSortTask, getCurrentSortTask, getAllOffers, getCurrentCity} from '../../store/offers-process/offers-process.selector';
 import MainEmptyPage from '../main-empty-page/main-empty-page';
-import {AuthorizationStatus, getLengthArrayOffers} from '../../constants';
+import {AuthorizationStatus, getLengthArrayOffers, modifyOffers} from '../../constants';
 import {fetchOffersData } from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
 
@@ -24,7 +24,8 @@ function WelcomePage(): JSX.Element {
 
   const currentCity = useAppSelector(getCurrentCity);
   const allOffers = useAppSelector(getAllOffers);
-  const currentOffers = allOffers.filter((item) => item.city.name === currentCity.name);
+  const filteredOffers = allOffers.filter((item) => item.city.name === currentCity.name);
+  const currentOffers = modifyOffers(filteredOffers);
   const currentSortTask = useAppSelector(getCurrentSortTask);
   const allSortTask = useAppSelector(getAllSortTask);
 
@@ -37,7 +38,7 @@ function WelcomePage(): JSX.Element {
     dispatch(fetchOffersData());
    }, [dispatch]);
 
-  const isLoadingData = useAppSelector(LoadingData);
+  const isLoadingData = useAppSelector(setLoadingData);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isLoadingData) {
     return (
