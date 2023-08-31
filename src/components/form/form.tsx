@@ -1,7 +1,7 @@
 import {ChangeEvent, useState, useEffect} from 'react';
 import {fetchPostReview} from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {ratingTitles, ReviewLength} from '../../constants';
+import {ratingTitles, ReviewLength, lengthArrayInputElement} from '../../constants';
 import { setLoadingData } from '../../store/review-process/review-process.selector';
 
 type FormProps = {
@@ -54,7 +54,7 @@ const dispatch = useAppDispatch();
                 Your review
                   </label>
              <div className="reviews__rating-form form__rating">
-        {[5, 4, 3, 2, 1].map((ratingValue) => (
+        {lengthArrayInputElement.map((ratingValue) => (
           <div key={ratingValue}>
             <input
               onChange={handleFieldChange}

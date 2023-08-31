@@ -5,7 +5,7 @@ import {fetchOfferData, fetchFavoritesAction} from '../api-actions';
 import {OfferInitialState} from '../../types/initialState';
 
 const initialState: OfferInitialState = {
-  offer: null,
+  offer: undefined,
   isLoadingData: false,
 };
 

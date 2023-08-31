@@ -21,7 +21,7 @@ function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const email = useAppSelector(getEmailSelector);
   const [error, setError] = useState(false);
-  const [cityName, setCityName] = useState('')
+  const [cityName, setCityName] = useState('');
 
  const [valueForm, setValueForm] = useState(initialState);
 

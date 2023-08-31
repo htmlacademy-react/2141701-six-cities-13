@@ -12,8 +12,8 @@ type CardPlaceProps = {
 
 function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
   const {id, title, previewImage, price, type, isPremium, rating} = offer;
-  
-  return (
+
+   return (
     <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=> onHoverCurrentCard && onHoverCurrentCard(id)}
      onMouseLeave={()=>onHoverCurrentCard && onHoverCurrentCard('')}
     >

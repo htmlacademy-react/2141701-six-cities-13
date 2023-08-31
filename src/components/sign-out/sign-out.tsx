@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 import {AppRoute} from '../../constants';
-import {fetchFavorites, logoutAction, } from '../../store/api-actions';
+import {fetchFavorites, logoutAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFavoritesData } from '../../store/favorites-process/favorites-process.selector';
 import { useEffect } from 'react';
@@ -18,6 +18,7 @@ dispatch(fetchFavorites());
 
   const handlerSignOut = () => {
     dispatch(logoutAction());
+    dispatch(fetchFavorites());
   };
 
   return (

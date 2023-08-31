@@ -47,6 +47,13 @@ export enum ReviewLength {
   Max = 300
 }
 
+export enum setStatus {
+  false = '0',
+  true = '1'
+}
+
+export const lengthArrayInputElement = [5, 4, 3, 2, 1];
+
   export const CITIES: City[] = [
     {
       name: 'Paris',
@@ -173,6 +180,8 @@ return array.map((item) => {
 export function capitalize (text: string | undefined) {
   if (text === undefined) {
     return '';
+  }else if (text === 'Private Room'){
+    return 'Private Room';
   }
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
@@ -186,15 +195,6 @@ export function getLengthArrayOffers (currentOffers: Offer[], currentCity: City)
   } else {
    return `${currentOffers.length} place to stay in ${currentCity.name}`;
   }
-}
-
-export function getRandomObjects<T>(array: T[]): T[] {
-  const shuffledArray = array.slice();
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-  }
-  return shuffledArray.slice(0, 3);
 }
 
 export function modifyOffers(offers: Offer[]): Offer[] {
@@ -227,4 +227,10 @@ export function getImages(offer: Offer | null): string[] | null {
   }
 
   return arr;
+}
+
+export function randomCutIndexArr(arr: Offer[]): number[] {
+ const a = Math.floor(Math.random() * (arr.length));
+ const b = a + 3;
+return [a , b];
 }

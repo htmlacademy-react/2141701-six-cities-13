@@ -7,7 +7,7 @@ import {City} from '../types/city';
 type InitialState = {
   currentCity: City;
   currentTaskSort: typeof SORT_TYPE_PLACE[0];
-  offer: Offer | null;
+  offer: Offer | undefined;
   offers: Offer[];
   offersNearby: Offer[];
   reviews: Review[];
@@ -20,9 +20,9 @@ type InitialState = {
   email: string | null;
 };
 
-export type FavoritesInitialState = Pick<InitialState, 'favorites' | 'isLoadingData'>;
+export type FavoritesInitialState = Pick<InitialState, 'favorites'>;
 export type OfferInitialState = Pick<InitialState, 'offer' | 'isLoadingData'>;
-export type OffersNearbyInitialState = Pick<InitialState, 'offersNearby' | 'isLoadingData'>;
+export type OffersNearbyInitialState = Pick<InitialState, 'offersNearby'>;
 export type OffersInitialState = Pick<InitialState, 'currentCity' | 'isLoadingData' | 'currentTaskSort' | 'offers' | 'taskSort' | 'hasError'>;
 export type ReviewsInitialState = Pick<InitialState, 'reviews' | 'isLoadingData'>;
 export type UserInitialState = Pick<InitialState, 'authorizationStatus' | 'email'>;

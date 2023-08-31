@@ -46,10 +46,11 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }
 >(
   'user/logout',
-  async (_arg, {extra: api}) => {
+  async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
     deleteUserEmail();
+    dispatch(redirectToRoute(AppRoute.Login));
   },
 );
 
@@ -140,7 +141,7 @@ export const fetchFavorites = createAsyncThunk<Offer[], undefined, {
   },
 );
 
-export const fetchFavoritesAction = createAsyncThunk<Offer | null, {status: string; id: string | undefined}, {
+export const fetchFavoritesAction = createAsyncThunk<Offer, {status: string; id: string}, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
@@ -148,11 +149,8 @@ export const fetchFavoritesAction = createAsyncThunk<Offer | null, {status: stri
 >(
   'data/postFavorite',
   async ({status, id}, {extra: api}) => {
-    if(id) {
       const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${id}/${status}`);
     return data;
-    }else {
-      return null;
-    }
+
   },
 );

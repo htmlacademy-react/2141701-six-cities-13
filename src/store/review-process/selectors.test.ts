@@ -1,6 +1,6 @@
 import { makeFakeReviews } from './../../utils/mocks';
 import { NameSpace } from './../../constants';
-import { getCurrentReviews, LoadingData } from './review-process.selector';
+import { getCurrentReviews, setLoadingData } from './review-process.selector';
 
 describe('GameData selectors', () => {
   const mockReviews = makeFakeReviews();
@@ -19,7 +19,7 @@ describe('GameData selectors', () => {
 
   it('should return data loading status', () => {
     const { isLoadingData } = state[NameSpace.Comments];
-    const result = LoadingData(state);
+    const result = setLoadingData(state);
     expect(result).toBe(isLoadingData);
   });
 });

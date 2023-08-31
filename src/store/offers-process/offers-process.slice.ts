@@ -42,7 +42,7 @@ export const offersProcess = createSlice({
     })
     .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
       state.offers = state.offers.map((offer) =>
-        offer.id === action.payload.id ? action.payload : offer
+        offer.id === action.payload?.id ? action.payload : offer
       );
     });
 

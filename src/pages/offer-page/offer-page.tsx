@@ -9,10 +9,10 @@ import CardList from '../../components/card-list/card-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import {fetchOfferData, fetchOffersNearby, fetchReviewsData} from '../../store/api-actions';
-import { useEffect, useState} from 'react';
+import { useEffect, useMemo} from 'react';
 import {Offer} from '../../types/offer';
 import Preloader from '../../components/preloader/preloader';
-import { AuthorizationStatus, capitalize, getRandomObjects, modifyOffer, convertRating} from '../../constants';
+import { AuthorizationStatus, capitalize, modifyOffer, convertRating, randomCutIndexArr} from '../../constants';
 import ButtonBookmark from '../../components/button-bookmark/button-bookmark';
 import {ButtonSettingOfferItem, getImages} from '../../constants';
 import {getCurrentOffer, setLoadingData} from '../../store/offer-process/offer-process.select';
@@ -21,10 +21,7 @@ import {getCurrentSortTask, getCurrentCity} from '../../store/offers-process/off
 import {getAuthorizationStatus} from '../../store/user-process/user-process.selector';
 import {getCurrentReviews} from '../../store/review-process/review-process.selector';
 
-
 function OfferPage(): JSX.Element {
-  const [randomArrayElements, setRandomArrayElements] = useState<Offer[]>([]);
-
 const currentOffer = useAppSelector(getCurrentOffer);
 const currentOffers = useAppSelector(getOffersNearby);
 const currentSortTask = useAppSelector(getCurrentSortTask);
@@ -33,10 +30,13 @@ const authorizationStatus = useAppSelector(getAuthorizationStatus);
 const reviews = useAppSelector(getCurrentReviews);
 const isLoadingData = useAppSelector(setLoadingData);
 const offer = modifyOffer(currentOffer);
-const currentArray = [...randomArrayElements, offer] as Offer[];
 const dispatch = useAppDispatch();
 const {id} = useParams();
 const images = getImages(offer);
+const number = useMemo(() => randomCutIndexArr(currentOffers), []);
+const arrayNearby = currentOffers.slice(number[0], number[1]);
+const arrayForMap = [...arrayNearby, offer] as Offer[];
+
 
 useEffect(() => {
   if(id) {
@@ -45,13 +45,6 @@ useEffect(() => {
   dispatch(fetchReviewsData(id));
   }
 }, [id, dispatch]);
-
-useEffect(() => {
-  if (currentOffers.length > 0) {
-      const newRandomArray = getRandomObjects(currentOffers);
-      setRandomArrayElements(newRandomArray);
-  }
-}, [currentOffers]);
 
 if (isLoadingData) {
   return <Preloader/>;
@@ -75,7 +68,7 @@ if (isLoadingData) {
                   src={item}
                   alt="Photo studio"
                 />
-                                            </div>))}
+                                      </div>))}
             </div>
           </div>
           <div className="offer__container container">
@@ -142,7 +135,7 @@ if (isLoadingData) {
               </ReviewList >
             </div>
           </div>
-          <Map currentOffers={currentArray} selectedPoint={offer} currentCity={currentCity} mapClassName={'offer__map'} />
+          <Map currentOffers={arrayForMap} selectedPoint={offer} currentCity={currentCity} mapClassName={'offer__map'} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -150,7 +143,7 @@ if (isLoadingData) {
           Other places in the neighbourhood
             </h2>
             <div className="near-places__list places__list">
-             <CardList currentOffers={randomArrayElements} currentSortTask={currentSortTask} cardNameClass={'near-places'} />
+             <CardList currentOffers={arrayNearby} currentSortTask={currentSortTask} cardNameClass={'near-places'} />
             </div>
           </section>
         </div>
