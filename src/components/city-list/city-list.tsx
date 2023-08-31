@@ -14,7 +14,7 @@ type CityListProps = {
 function CityList({currentCity}: CityListProps) {
   const dispatch = useAppDispatch();
 
-  const changeCityHandler = (city: City) => {
+  const handleChangeCity = (city: City) => {
     dispatch(changeCity(city));
   };
 
@@ -25,7 +25,7 @@ function CityList({currentCity}: CityListProps) {
         <li key={city.name} className="locations__item" >
           <Link className={cn('locations__item-link tabs__item',
            { 'tabs__item--active': city === currentCity})} to={AppRoute.Main}
-           onClick={()=>changeCityHandler(city)}
+           onClick={()=>handleChangeCity(city)}
           >
             <span>{city.name}</span>
           </Link>

@@ -7,15 +7,15 @@ import {ButtonSettingPlaceCard} from '../../constants';
 type CardPlaceProps = {
   offer: Offer;
   cardNameClass: string;
- onHoverCurrentCard?: (offerId: string) => void;
+ handleHoverCurrentCard?: (offerId: string) => void;
 };
 
-function CardPlace({offer, cardNameClass, onHoverCurrentCard}: CardPlaceProps): JSX.Element {
+function CardPlace({offer, cardNameClass, handleHoverCurrentCard}: CardPlaceProps): JSX.Element {
   const {id, title, previewImage, price, type, isPremium, rating} = offer;
 
    return (
-    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=> onHoverCurrentCard && onHoverCurrentCard(id)}
-     onMouseLeave={()=>onHoverCurrentCard && onHoverCurrentCard('')}
+    <article key={id} className={`${cardNameClass}__card place-card`} onMouseOver={()=> handleHoverCurrentCard && handleHoverCurrentCard(id)}
+     onMouseLeave={()=>handleHoverCurrentCard && handleHoverCurrentCard('')}
     >
 {isPremium && <div className="place-card__mark">
   <span>Premium</span>

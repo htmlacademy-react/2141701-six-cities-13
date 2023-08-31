@@ -80,10 +80,11 @@ const dispatch = useAppDispatch();
              </div>
              {formData.review.length > 0 && !formDataCheckLength ? (
     <p className="form__error" style={{ color: '#FF0000' }}>
-      Текст отзыва должен содержать от 50 до 300 символов.
+      {`Текст отзыва должен содержать от ${ReviewLength.Min} до ${ReviewLength.Max} символов.`}
     </p>
   ) : null}
                   <textarea
+                  disabled={isSending}
                   onChange={handleFieldChange}
                     className="reviews__textarea form__textarea"
                     id="review"
@@ -96,7 +97,7 @@ const dispatch = useAppDispatch();
                   To submit review please make sure to set{' '}
                       <span className="reviews__star">rating</span> and describe
                   your stay with at least{' '}
-                      <b className="reviews__text-amount">50 characters</b>.
+                      <b className="reviews__text-amount">{`${ReviewLength.Min} characters`}</b>.
                     </p>
                     <button
                       className="reviews__submit form__submit button"
