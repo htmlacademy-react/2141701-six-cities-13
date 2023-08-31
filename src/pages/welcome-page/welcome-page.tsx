@@ -29,7 +29,7 @@ function WelcomePage(): JSX.Element {
   const currentSortTask = useAppSelector(getCurrentSortTask);
   const allSortTask = useAppSelector(getAllSortTask);
 
-  const onHoverCurrentCard = (offerId: string | undefined) => {
+  const handleHoverCurrentCard = (offerId: string | undefined) => {
     const card = currentOffers.find((item) => item.id === offerId);
     setCurrentOffer(card);
   };
@@ -65,7 +65,7 @@ function WelcomePage(): JSX.Element {
               <b className="places__found">{getLengthArrayOffers(currentOffers, currentCity)}</b>
               <SortedItems allSortTask={allSortTask} currentSortTask={currentSortTask}/>
               <div className="cities__places-list places__list tabs__content">
-                <CardList onHoverCurrentCard={onHoverCurrentCard} currentSortTask={currentSortTask} currentOffers={currentOffers} cardNameClass={'cities'}/>
+                <CardList handleHoverCurrentCard={handleHoverCurrentCard} currentSortTask={currentSortTask} currentOffers={currentOffers} cardNameClass={'cities'}/>
               </div>
             </section>
             <div className="cities__right-section">
